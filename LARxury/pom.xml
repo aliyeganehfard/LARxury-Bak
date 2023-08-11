@@ -2,31 +2,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>auth-server</module>
+        <module>common-utils</module>
+    </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
+
     <groupId>ir.larxury</groupId>
     <artifactId>LARxury</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>LARxury</name>
+
     <description>LARxury project</description>
     <properties>
         <java.version>17</java.version>
         <spring-boot.version>3.1.2</spring-boot.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
+        <modelmapper.version>3.1.1</modelmapper.version>
+        <postgresql.version>42.6.0</postgresql.version>
+        <lombok.version>1.18.28</lombok.version>
+        <spring-security-test.version>6.1.2</spring-security-test.version>
     </properties>
-
-    <modules>
-        <module>oauth-server</module>
-    </modules>
 
     <dependencyManagement>
 
-        <!-- Spring Requirements dependency-->
+        <!-- Spring requirements dependency -->
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -56,13 +63,6 @@
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring-boot.version}</version>
                 <scope>test</scope>
@@ -71,19 +71,55 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-test</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-security-test.version}</version>
                 <scope>test</scope>
             </dependency>
 
-            <!-- Lombok-->
+            <!-- Spring validation -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- Local dependency -->
+            <dependency>
+                <groupId>ir.larxury</groupId>
+                <artifactId>common-utils</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+
+            <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
                 <optional>true</optional>
+            </dependency>
+
+            <!-- JWT -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
+            </dependency>
+
+            <!-- Postgres -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- Model Mapper -->
+            <dependency>
+                <groupId>org.modelmapper</groupId>
+                <artifactId>modelmapper</artifactId>
+                <version>${modelmapper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <build>
         <plugins>
