@@ -8,7 +8,9 @@ import ir.larxury.auth.server.common.dto.AuthenticationResponse;
 import ir.larxury.auth.server.common.exception.AuthException;
 import ir.larxury.auth.server.common.utils.PrivateKeyReader;
 import ir.larxury.common.utils.service.JWTVerificationProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,37 +20,42 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class JwtService {
 
     @Autowired
     private JWTVerificationProvider jwtVerificationProvider;
 
-    public static final Long EXPIRATION_TOKEN_TIME = 30L * 60L * 1000L;
-    public static final Long EXPIRATION_REFRESH_TOKEN_TIME = 30L * 60L * 1000L;
-    public static final String CLAIM_ROLES = "roles";
+    @Autowired
+    private Environment env;
 
+    public Long expirationTokenTime;
+    public Long expirationRefreshTokenTime;
+    public static final String CLAIM_ROLES = "roles";
 
     public RSAPrivateKey privateKey;
     public RSAPublicKey publicKey;
 
-
     @Autowired
     public void init() {
         try {
+            expirationTokenTime = env.getProperty("auth.server.expiration.token.time", Long.class, 30L) * 60L * 1000L;
+            expirationRefreshTokenTime = env.getProperty("auth.server.expiration.refresh.token.time", Long.class, 30L) * 60L * 1000L;
             privateKey = PrivateKeyReader.getPrivateKey("sign_key");
             publicKey = jwtVerificationProvider.getPublicKey();
         } catch (Exception e) {
-           throw new AuthException("problem with read RSA file");
+            throw new AuthException("problem with read RSA file");
         }
     }
 
-    public AuthenticationResponse getToken(Map<String,List<String>> payload, UserDetails userDetails) {
+    public AuthenticationResponse getToken(Map<String, List<String>> payload, UserDetails userDetails) {
         AuthenticationResponse jwt = new AuthenticationResponse();
         String accessToken = generateAccessToken(payload, userDetails);
         String refreshToken = generateRefreshToken(userDetails);
         jwt.setAccessToken(accessToken);
         jwt.setRefreshToken(refreshToken);
+        log.info("generating token for user {} ", userDetails.getUsername());
         return jwt;
     }
 
@@ -56,10 +63,10 @@ public class JwtService {
         return jwtVerificationProvider.getDecodedJWT(token);
     }
 
-    private String generateAccessToken(Map<String,List<String>> payload, UserDetails userDetails) {
-        JWTCreator.Builder builder=  JWT.create()
+    private String generateAccessToken(Map<String, List<String>> payload, UserDetails userDetails) {
+        JWTCreator.Builder builder = JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN_TIME));
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTokenTime));
         payload.forEach(builder::withClaim);
         return builder.sign(getSigningAlgorithm());
     }
@@ -67,12 +74,11 @@ public class JwtService {
     private String generateRefreshToken(UserDetails userDetails) {
         return JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_REFRESH_TOKEN_TIME))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationRefreshTokenTime))
                 .sign(getSigningAlgorithm());
     }
 
     private Algorithm getSigningAlgorithm() {
-        return Algorithm.RSA256(publicKey,privateKey);
+        return Algorithm.RSA256(publicKey, privateKey);
     }
-
 }

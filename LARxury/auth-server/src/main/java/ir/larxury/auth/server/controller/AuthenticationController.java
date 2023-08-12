@@ -7,6 +7,7 @@ import ir.larxury.auth.server.common.exception.AuthException;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("signIn")
-    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody SignInDto req) {
+    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody @Valid SignInDto req) {
         var response = userService.signIn(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
