@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import ir.larxury.auth.server.common.dto.AuthenticationResponse;
-import ir.larxury.auth.server.common.exception.AuthException;
+import ir.larxury.auth.server.common.exception.handler.AuthException;
 import ir.larxury.auth.server.common.utils.PrivateKeyReader;
 import ir.larxury.common.utils.service.JWTVerificationProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +36,15 @@ public class JwtService {
 
     public RSAPrivateKey privateKey;
     public RSAPublicKey publicKey;
+    public String tokenTypeValue;
 
     @Autowired
     public void init() {
         try {
+            log.error("bobs");
             expirationTokenTime = env.getProperty("auth.server.expiration.token.time", Long.class, 30L) * 60L * 1000L;
             expirationRefreshTokenTime = env.getProperty("auth.server.expiration.refresh.token.time", Long.class, 30L) * 60L * 1000L;
+            tokenTypeValue = env.getProperty("auth.server.token.type",String.class,"bearer");
             privateKey = PrivateKeyReader.getPrivateKey("sign_key");
             publicKey = jwtVerificationProvider.getPublicKey();
         } catch (Exception e) {
@@ -55,6 +58,7 @@ public class JwtService {
         String refreshToken = generateRefreshToken(userDetails);
         jwt.setAccessToken(accessToken);
         jwt.setRefreshToken(refreshToken);
+        jwt.setTokenType(tokenTypeValue);
         log.info("generating token for user {} ", userDetails.getUsername());
         return jwt;
     }

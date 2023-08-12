@@ -2,7 +2,7 @@ package ir.larxury.auth.server.service;
 
 import ir.larxury.auth.server.common.dto.AuthenticationResponse;
 import ir.larxury.auth.server.common.dto.SignInDto;
-import ir.larxury.auth.server.common.exception.AuthException;
+import ir.larxury.auth.server.common.exception.handler.AuthException;
 import ir.larxury.auth.server.config.JwtService;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.database.repository.UserRepository;
@@ -41,7 +41,11 @@ public class UserService {
     @Autowired
     private OtpService otpService;
 
-    public AuthenticationResponse signUp(User user) {
+    public AuthenticationResponse signUp(User user, String confirmPassword) {
+        if (!user.getPassword().equals(confirmPassword)){
+            log.error("The password and verification password are not the same!");
+            throw new AuthException("The password and verification password are not the same!");
+        }
         var encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
@@ -55,7 +59,7 @@ public class UserService {
                     new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword())
             );
         } catch (BadCredentialsException badCredentialsException) {
-            log.warn("bad credentials for user = {}", signInDto.getUsername());
+            log.error("bad credentials for user = {}", signInDto.getUsername());
             throw new AuthException("incorrect password!");
         }
 
@@ -72,7 +76,7 @@ public class UserService {
     public AuthenticationResponse signIn(String phoneNumber, String otpCode) {
         var user = findByPhoneNumber(phoneNumber);
         if (!otpService.validateOTP(user, otpCode)) {
-            log.warn("entered otp code was wrong for user {} with otp {}", user.getUsername(), otpCode);
+            log.error("entered otp code was wrong for user {} with otp {}", user.getUsername(), otpCode);
             throw new AuthException(String.format("entered otp code was wrong for user {%s} with otp {%s}", user.getUsername(), otpCode));
         }
         return getAuthenticationResponse(user);
@@ -87,14 +91,14 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> {
-            log.warn("username " + username + " not found!");
+            log.error("username " + username + " not found!");
             return new AuthException("username " + username + " not found!");
         });
     }
 
     public User findByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> {
-            log.warn("user with phoneNumber" + phoneNumber + " not found!");
+            log.error("user with phoneNumber" + phoneNumber + " not found!");
             return new AuthException("user with phoneNumber" + phoneNumber + " not found!");
         });
     }

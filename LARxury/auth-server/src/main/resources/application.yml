@@ -7,3 +7,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+#logging:
+#  file:
+#    name: F:/LARxury Start-Up/Back-End/LARxury/auth-server/src/main/resources/logs/auth.log

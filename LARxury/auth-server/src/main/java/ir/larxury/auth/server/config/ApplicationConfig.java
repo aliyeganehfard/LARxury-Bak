@@ -1,6 +1,6 @@
 package ir.larxury.auth.server.config;
 
-import ir.larxury.auth.server.common.exception.AuthException;
+import ir.larxury.auth.server.common.exception.handler.AuthException;
 import ir.larxury.auth.server.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

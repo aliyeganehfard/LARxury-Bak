@@ -1,6 +1,6 @@
 package ir.larxury.auth.server.service;
 
-import ir.larxury.auth.server.common.exception.AuthException;
+import ir.larxury.auth.server.common.exception.handler.AuthException;
 import ir.larxury.auth.server.database.model.OTP;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.database.repository.OTPRepository;

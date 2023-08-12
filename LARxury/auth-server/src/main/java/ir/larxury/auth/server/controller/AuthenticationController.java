@@ -3,7 +3,7 @@ package ir.larxury.auth.server.controller;
 import ir.larxury.auth.server.common.dto.AuthenticationResponse;
 import ir.larxury.auth.server.common.dto.SignInDto;
 import ir.larxury.auth.server.common.dto.SignUpDto;
-import ir.larxury.auth.server.common.exception.AuthException;
+import ir.larxury.auth.server.common.exception.handler.AuthException;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,9 +27,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("signUp")
-    public ResponseEntity<AuthenticationResponse> signUp(@RequestBody SignUpDto req) {
+    public ResponseEntity<AuthenticationResponse> signUp(@RequestBody @Valid SignUpDto req) {
         var user = mapper.map(req, User.class);
-        AuthenticationResponse response = userService.signUp(user);
+        AuthenticationResponse response = userService.signUp(user,req.getConfirmPassword());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
