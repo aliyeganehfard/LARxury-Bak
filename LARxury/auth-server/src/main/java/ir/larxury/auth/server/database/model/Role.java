@@ -1,20 +1,20 @@
 package ir.larxury.auth.server.database.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
+@Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
-@RequiredArgsConstructor
 @Entity
-@Table(name = "user_role")
+@Table(name = "roles")
 public class Role {
 
     @Id
@@ -22,12 +22,11 @@ public class Role {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "role")
+    @Column(name = "name")
     private String name;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne
-    private User user;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
     @Override
     public boolean equals(Object o) {
