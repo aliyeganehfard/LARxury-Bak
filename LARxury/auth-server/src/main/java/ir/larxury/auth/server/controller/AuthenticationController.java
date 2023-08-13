@@ -3,9 +3,11 @@ package ir.larxury.auth.server.controller;
 import ir.larxury.auth.server.common.dto.AuthenticationResponse;
 import ir.larxury.auth.server.common.dto.SignInDto;
 import ir.larxury.auth.server.common.dto.SignUpDto;
-import ir.larxury.auth.server.common.exception.handler.AuthException;
+import ir.larxury.auth.server.common.aop.exception.AuthException;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.service.UserService;
+import ir.larxury.common.utils.common.aop.ErrorCode;
+import ir.larxury.common.utils.common.dto.GeneralResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -27,39 +29,45 @@ public class AuthenticationController {
     }
 
     @PostMapping("signUp")
-    public ResponseEntity<AuthenticationResponse> signUp(@RequestBody @Valid SignUpDto req) {
+    public ResponseEntity<GeneralResponse> signUp(@RequestBody @Valid SignUpDto req) {
         var user = mapper.map(req, User.class);
-        AuthenticationResponse response = userService.signUp(user,req.getConfirmPassword());
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        var jwt = userService.signUp(user, req.getConfirmPassword());
+        var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("signIn")
-    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody @Valid SignInDto req) {
-        var response = userService.signIn(req);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<GeneralResponse> signIn(@RequestBody @Valid SignInDto req) {
+        var jwt = userService.signIn(req);
+        var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("otp/send")
-    public ResponseEntity<String> sendOtp(@RequestParam("phoneNumber") String phoneNumber){
+    public ResponseEntity<GeneralResponse> sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
         var otpCode = userService.sendOtp(phoneNumber);
-        return new ResponseEntity<>(otpCode,HttpStatus.OK);
+        var res = GeneralResponse.successfulResponse(otpCode, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping("otp/verify")
-    public ResponseEntity<AuthenticationResponse> verifyOtp(
+    public ResponseEntity<GeneralResponse> verifyOtp(
             @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("otpCode") String otpCode){
-        var response = userService.signIn(phoneNumber,otpCode);
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+            @RequestParam("otpCode") String otpCode) {
+        var jwt = userService.signIn(phoneNumber, otpCode);
+        var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("token/refresh")
-    public ResponseEntity<AuthenticationResponse> refreshToken(HttpServletRequest request){
+    public ResponseEntity<GeneralResponse> refreshToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new AuthException("missing refresh token");
+            throw new AuthException(ErrorCode.REFRESH_TOKEN_IS_MISSING);
         }
         var token = authHeader.substring("Bearer ".length());
-        return new ResponseEntity<>(userService.refreshToken(token),HttpStatus.OK);
+        var jwt = userService.refreshToken(token);
+        var res = GeneralResponse.successfulResponse(jwt,ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

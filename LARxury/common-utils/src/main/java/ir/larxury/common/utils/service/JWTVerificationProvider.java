@@ -5,7 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import ir.larxury.common.utils.common.aop.CommonUtilsException;
+import ir.larxury.common.utils.common.aop.ErrorCode;
+import ir.larxury.common.utils.common.aop.exception.CommonUtilsException;
 import ir.larxury.common.utils.common.utils.PublicKeyReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,8 @@ public class JWTVerificationProvider {
             publicKey = PublicKeyReader.getPublicKey("verify_key.pub");
             log.info("reading public key was successful!");
         } catch (Exception e) {
-            log.error("trouble to read public key!");
-           throw new CommonUtilsException("problem with read RSA file");
+            log.error(ErrorCode.RSA_TROUBLE_READ_PUBLIC_KEY.getTechnicalMessage());
+           throw new CommonUtilsException(ErrorCode.RSA_TROUBLE_READ_PUBLIC_KEY);
         }
     }
 
@@ -43,11 +44,11 @@ public class JWTVerificationProvider {
             log.info("token verified with subject {}", decodedJWT.getSubject());
             return decodedJWT;
         } catch (TokenExpiredException tokenExpiredException) {
-            log.error("token was expired!");
-            throw new CommonUtilsException("token was expired!");
+            log.error(ErrorCode.TOKEN_EXPIRED.getTechnicalMessage());
+            throw new CommonUtilsException(ErrorCode.TOKEN_EXPIRED);
         } catch (Exception e) {
-            log.error("token is invalid!");
-            throw new CommonUtilsException("invalid token!");
+            log.error(ErrorCode.TOKEN_INVALID.getTechnicalMessage());
+            throw new CommonUtilsException(ErrorCode.TOKEN_INVALID);
         }
 
     }

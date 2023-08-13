@@ -1,4 +1,4 @@
-package ir.larxury.auth.server.config;
+package ir.larxury.auth.server.security.config;
 
 import ir.larxury.common.utils.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +42,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-//        return configuration.getAuthenticationManager();
-//    }
 }

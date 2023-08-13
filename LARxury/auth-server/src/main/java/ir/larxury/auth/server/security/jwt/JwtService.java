@@ -1,12 +1,13 @@
-package ir.larxury.auth.server.config;
+package ir.larxury.auth.server.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import ir.larxury.auth.server.common.dto.AuthenticationResponse;
-import ir.larxury.auth.server.common.exception.handler.AuthException;
+import ir.larxury.auth.server.common.aop.exception.AuthException;
 import ir.larxury.auth.server.common.utils.PrivateKeyReader;
+import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.service.JWTVerificationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,14 @@ public class JwtService {
     @Autowired
     public void init() {
         try {
-            log.error("bobs");
             expirationTokenTime = env.getProperty("auth.server.expiration.token.time", Long.class, 30L) * 60L * 1000L;
             expirationRefreshTokenTime = env.getProperty("auth.server.expiration.refresh.token.time", Long.class, 30L) * 60L * 1000L;
             tokenTypeValue = env.getProperty("auth.server.token.type",String.class,"bearer");
             privateKey = PrivateKeyReader.getPrivateKey("sign_key");
             publicKey = jwtVerificationProvider.getPublicKey();
         } catch (Exception e) {
-            throw new AuthException("problem with read RSA file");
+            log.error(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY.getTechnicalMessage());
+            throw new AuthException(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY);
         }
     }
 

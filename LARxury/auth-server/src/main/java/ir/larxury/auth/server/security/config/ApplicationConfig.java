@@ -1,7 +1,9 @@
-package ir.larxury.auth.server.config;
+package ir.larxury.auth.server.security.config;
 
-import ir.larxury.auth.server.common.exception.handler.AuthException;
+import ir.larxury.auth.server.common.aop.exception.AuthException;
 import ir.larxury.auth.server.database.repository.UserRepository;
+import ir.larxury.common.utils.common.aop.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Slf4j
 @Configuration
 public class ApplicationConfig {
 
@@ -23,7 +26,10 @@ public class ApplicationConfig {
     public UserDetailsService userDetailsService() {
         return username ->
                 userRepository.findByUsername(username)
-                        .orElseThrow(() -> new AuthException("username : " + username + " not found!"));
+                        .orElseThrow(() -> {
+                            log.error(ErrorCode.AUTH_USER_NOT_FOUND.getTechnicalMessage());
+                            return new AuthException(ErrorCode.AUTH_USER_NOT_FOUND);
+                        });
     }
 
     @Bean

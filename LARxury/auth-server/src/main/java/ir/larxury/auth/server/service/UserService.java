@@ -2,10 +2,11 @@ package ir.larxury.auth.server.service;
 
 import ir.larxury.auth.server.common.dto.AuthenticationResponse;
 import ir.larxury.auth.server.common.dto.SignInDto;
-import ir.larxury.auth.server.common.exception.handler.AuthException;
-import ir.larxury.auth.server.config.JwtService;
+import ir.larxury.auth.server.common.aop.exception.AuthException;
+import ir.larxury.auth.server.security.jwt.JwtService;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.database.repository.UserRepository;
+import ir.larxury.common.utils.common.aop.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ir.larxury.auth.server.config.JwtService.CLAIM_ROLES;
+import static ir.larxury.auth.server.security.jwt.JwtService.CLAIM_ROLES;
 
 @Slf4j
 @Service
@@ -42,9 +43,9 @@ public class UserService {
     private OtpService otpService;
 
     public AuthenticationResponse signUp(User user, String confirmPassword) {
-        if (!user.getPassword().equals(confirmPassword)){
-            log.error("The password and verification password are not the same!");
-            throw new AuthException("The password and verification password are not the same!");
+        if (!user.getPassword().equals(confirmPassword)) {
+            log.error(ErrorCode.AUTH_PASSWORD_CONFIRMATION_MISMATCH.getTechnicalMessage());
+            throw new AuthException(ErrorCode.AUTH_PASSWORD_CONFIRMATION_MISMATCH);
         }
         var encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -59,8 +60,8 @@ public class UserService {
                     new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword())
             );
         } catch (BadCredentialsException badCredentialsException) {
-            log.error("bad credentials for user = {}", signInDto.getUsername());
-            throw new AuthException("incorrect password!");
+            log.error(ErrorCode.AUTH_INCORRECT_PASSWORD.getTechnicalMessage() + " for username {}", signInDto.getUsername());
+            throw new AuthException(ErrorCode.AUTH_INCORRECT_PASSWORD);
         }
 
         var user = findByUsername(signInDto.getUsername());
@@ -76,8 +77,8 @@ public class UserService {
     public AuthenticationResponse signIn(String phoneNumber, String otpCode) {
         var user = findByPhoneNumber(phoneNumber);
         if (!otpService.validateOTP(user, otpCode)) {
-            log.error("entered otp code was wrong for user {} with otp {}", user.getUsername(), otpCode);
-            throw new AuthException(String.format("entered otp code was wrong for user {%s} with otp {%s}", user.getUsername(), otpCode));
+            log.error(ErrorCode.AUTH_OTP_MISMATCH.getTechnicalMessage() + " for user {}", user.getUsername());
+            throw new AuthException(ErrorCode.AUTH_OTP_MISMATCH);
         }
         return getAuthenticationResponse(user);
     }
@@ -91,15 +92,15 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> {
-            log.error("username " + username + " not found!");
-            return new AuthException("username " + username + " not found!");
+            log.error(ErrorCode.AUTH_USER_NOT_FOUND.getTechnicalMessage());
+            return new AuthException(ErrorCode.AUTH_USER_NOT_FOUND);
         });
     }
 
     public User findByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> {
-            log.error("user with phoneNumber" + phoneNumber + " not found!");
-            return new AuthException("user with phoneNumber" + phoneNumber + " not found!");
+            log.error(ErrorCode.AUTH_USER_NOT_FOUND_BY_PHONE_NUMBER.getTechnicalMessage() + " phone number is {}", phoneNumber);
+            return new AuthException(ErrorCode.AUTH_USER_NOT_FOUND_BY_PHONE_NUMBER);
         });
     }
 

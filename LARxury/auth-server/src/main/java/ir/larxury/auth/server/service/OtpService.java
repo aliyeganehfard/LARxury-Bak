@@ -1,9 +1,10 @@
 package ir.larxury.auth.server.service;
 
-import ir.larxury.auth.server.common.exception.handler.AuthException;
+import ir.larxury.auth.server.common.aop.exception.AuthException;
 import ir.larxury.auth.server.database.model.OTP;
 import ir.larxury.auth.server.database.model.User;
 import ir.larxury.auth.server.database.repository.OTPRepository;
+import ir.larxury.common.utils.common.aop.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -52,17 +53,17 @@ public class OtpService {
         var otp = findOTPByUserPhoneNumber(user);
 
         if (new Date().after(otp.getExpirationDate())) {
-            log.warn("otp code was expired earlier for user with phone number {}", user.getPhoneNumber());
-            throw new AuthException(String.format("otp code was expired earlier for user with phone number {%s}", user.getPhoneNumber()));
+            log.warn(ErrorCode.AUTH_OTP_EXPIRED.getTechnicalMessage(), " for user {}", user.getUsername());
+            throw new AuthException(ErrorCode.AUTH_OTP_EXPIRED);
         }
 
         if (otp.getIsUsed()) {
-            log.warn("otp with code = {} used earlier!", otp.getOtp());
-            throw new AuthException(String.format("otp code = {%s} used earlier!", otp.getOtp()));
+            log.warn(ErrorCode.AUTH_OTP_IS_ALREADY_USED.getTechnicalMessage() + " otp is {}", otp);
+            throw new AuthException(ErrorCode.AUTH_OTP_IS_ALREADY_USED);
         }
 
         if (!otp.getOtp().equals(otpCode)) {
-           log.warn("otp mismatch for username = {} and otp = {}", user.getUsername(), otpCode);
+            log.warn("otp mismatch for username = {} and otp = {}", user.getUsername(), otpCode);
             return false;
         }
 
@@ -74,8 +75,8 @@ public class OtpService {
     public OTP findOTPByUserPhoneNumber(User user) {
         OTP otp = otpRepository.findFirstByUserPhoneNumberOrderByCreateDateDesc(user.getPhoneNumber());
         if (otp == null) {
-            log.warn("did not find any otp for user with phone number = {}", user.getPhoneNumber());
-            throw new AuthException(String.format("did not find any otp for user with phone number = {%s}", user.getPhoneNumber()));
+            log.warn(ErrorCode.AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER.getTechnicalMessage() + " phone number is {}", user.getPhoneNumber());
+            throw new AuthException(ErrorCode.AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER);
         }
         return otp;
     }
