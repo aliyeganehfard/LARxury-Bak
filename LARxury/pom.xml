@@ -5,6 +5,7 @@
     <modules>
         <module>common-utils</module>
         <module>auth-server</module>
+        <module>core-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -29,6 +30,7 @@
         <postgresql.version>42.6.0</postgresql.version>
         <lombok.version>1.18.28</lombok.version>
         <spring-security-test.version>6.1.2</spring-security-test.version>
+        <common-utils.version>1.0.0</common-utils.version>
     </properties>
 
     <dependencyManagement>
@@ -86,7 +88,7 @@
             <dependency>
                 <groupId>ir.larxury</groupId>
                 <artifactId>common-utils</artifactId>
-                <version>${project.version}</version>
+                <version>${common-utils.version}</version>
             </dependency>
 
             <!-- Lombok -->
