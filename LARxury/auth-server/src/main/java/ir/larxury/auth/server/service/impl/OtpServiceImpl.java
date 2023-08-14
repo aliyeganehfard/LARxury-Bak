@@ -33,7 +33,6 @@ public class OtpServiceImpl implements OtpService {
         otpLength = env.getProperty("auth.server.otp.length", Integer.class, 6);
     }
 
-
     public OTP save(User user) {
         var otp = new OTP();
         otp.setUser(user);
@@ -56,7 +55,7 @@ public class OtpServiceImpl implements OtpService {
         otpRepository.save(otp);
     }
 
-    public Boolean validateOTP(User user, String otpCode) {
+    public void validateOTP(User user, String otpCode) {
         var otp = findOTPByUserPhoneNumber(user);
 
         if (!otpCode.equals(otp.getOtp())) {
@@ -76,7 +75,6 @@ public class OtpServiceImpl implements OtpService {
 
         otp.setIsUsed(true);
         this.update(otp);
-        return true;
     }
 
     public OTP findOTPByUserPhoneNumber(User user) {

@@ -11,7 +11,7 @@ public interface OtpService {
 
     void update(OTP otp);
 
-    Boolean validateOTP(User user, String otpCode);
+    void validateOTP(User user, String otpCode);
 
     OTP findOTPByUserPhoneNumber(User user);
 }

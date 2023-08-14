@@ -93,7 +93,6 @@ public class AuthServiceImpl implements AuthService {
         return getAuthenticationResponse(user);
     }
 
-
     private AuthenticationResponse getAuthenticationResponse(User user) {
         List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         Map<String, List<String>> payload = new HashMap<>();
