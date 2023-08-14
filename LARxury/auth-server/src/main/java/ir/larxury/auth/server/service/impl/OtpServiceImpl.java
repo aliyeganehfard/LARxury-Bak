@@ -41,7 +41,7 @@ public class OtpServiceImpl implements OtpService {
         otp.setExpirationDate(new Date(System.currentTimeMillis() + expirationTime));
         otp.setIsUsed(false);
         otpRepository.save(otp);
-        log.info("save otp for username = {} ", user.getUsername());
+        log.info("save otp with id = {} ", otp.getId());
         return otp;
     }
 
