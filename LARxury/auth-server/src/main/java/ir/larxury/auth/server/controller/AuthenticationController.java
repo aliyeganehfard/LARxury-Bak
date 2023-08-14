@@ -1,11 +1,11 @@
 package ir.larxury.auth.server.controller;
 
-import ir.larxury.auth.server.common.dto.AuthenticationResponse;
+import ir.larxury.auth.server.common.dto.OtpRes;
 import ir.larxury.auth.server.common.dto.SignInDto;
 import ir.larxury.auth.server.common.dto.SignUpDto;
 import ir.larxury.auth.server.common.aop.exception.AuthException;
 import ir.larxury.auth.server.database.model.User;
-import ir.larxury.auth.server.service.UserService;
+import ir.larxury.auth.server.service.AuthService;
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,33 +20,32 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("auth/")
 public class AuthenticationController {
 
-    private final UserService userService;
-    private final ModelMapper mapper = new ModelMapper();
-
     @Autowired
-    public AuthenticationController(UserService userService) {
-        this.userService = userService;
-    }
+    private AuthService authService;
+
+    private final ModelMapper mapper = new ModelMapper();
 
     @PostMapping("signUp")
     public ResponseEntity<GeneralResponse> signUp(@RequestBody @Valid SignUpDto req) {
         var user = mapper.map(req, User.class);
-        var jwt = userService.signUp(user, req.getConfirmPassword());
+        var jwt = authService.signUp(user, req.getConfirmPassword());
         var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("signIn")
     public ResponseEntity<GeneralResponse> signIn(@RequestBody @Valid SignInDto req) {
-        var jwt = userService.signIn(req);
+        var jwt = authService.signIn(req);
         var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("otp/send")
     public ResponseEntity<GeneralResponse> sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
-        var otpCode = userService.sendOtp(phoneNumber);
-        var res = GeneralResponse.successfulResponse(otpCode, ErrorCode.SUCCESSFUL);
+        var otpRes = OtpRes.builder()
+                .otpCode(authService.sendOtp(phoneNumber))
+                .build();
+        var res = GeneralResponse.successfulResponse(otpRes, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -54,7 +53,7 @@ public class AuthenticationController {
     public ResponseEntity<GeneralResponse> verifyOtp(
             @RequestParam("phoneNumber") String phoneNumber,
             @RequestParam("otpCode") String otpCode) {
-        var jwt = userService.signIn(phoneNumber, otpCode);
+        var jwt = authService.signIn(phoneNumber, otpCode);
         var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
@@ -66,7 +65,7 @@ public class AuthenticationController {
             throw new AuthException(ErrorCode.REFRESH_TOKEN_IS_MISSING);
         }
         var token = authHeader.substring("Bearer ".length());
-        var jwt = userService.refreshToken(token);
+        var jwt = authService.refreshToken(token);
         var res = GeneralResponse.successfulResponse(jwt,ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

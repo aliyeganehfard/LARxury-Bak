@@ -4,8 +4,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class SignUpDto {
+public class SignUpDto implements Serializable {
 
     @NotEmpty(message = "username should not be empty!")
     private String username;
