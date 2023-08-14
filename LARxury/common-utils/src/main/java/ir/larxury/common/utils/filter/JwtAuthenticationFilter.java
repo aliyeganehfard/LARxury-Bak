@@ -1,12 +1,17 @@
 package ir.larxury.common.utils.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ir.larxury.common.utils.common.aop.ErrorCode;
+import ir.larxury.common.utils.common.aop.exception.CommonUtilsException;
+import ir.larxury.common.utils.common.dto.GeneralResponse;
 import ir.larxury.common.utils.service.JWTVerificationProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
         if (request.getServletPath().equals("/auth/signIn") || request.getServletPath().equals("/auth/signUp") ||
                 request.getServletPath().equals("/auth/token/refresh")) {
            filterChain.doFilter(request,response);
@@ -53,5 +59,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
+
+        }catch (CommonUtilsException commonUtilsException){
+            var res = GeneralResponse.unsuccessfulResponse(commonUtilsException.getErrorCode());
+            setResponse(response, res);
+        } catch (Exception e){
+            var res = GeneralResponse.unsuccessfulResponse(ErrorCode.TOKEN_VERIFICATION_UNKNOWN_ERROR);
+            setResponse(response, res);
+        }
+    }
+
+    private void setResponse(HttpServletResponse response, GeneralResponse res) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json");
+        response.getWriter().write(mapper.writeValueAsString(res));
     }
 }
