@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.security.interfaces.RSAPublicKey;
 
 @Service
@@ -29,11 +30,11 @@ public class JWTVerificationProvider {
             log.info("reading public key was successful!");
         } catch (Exception e) {
             log.error(ErrorCode.RSA_TROUBLE_READ_PUBLIC_KEY.getTechnicalMessage());
-           throw new CommonUtilsException(ErrorCode.RSA_TROUBLE_READ_PUBLIC_KEY);
+            throw new CommonUtilsException(ErrorCode.RSA_TROUBLE_READ_PUBLIC_KEY);
         }
     }
 
-    public RSAPublicKey getPublicKey(){
+    public RSAPublicKey getPublicKey() {
         return this.publicKey;
     }
 
@@ -53,7 +54,7 @@ public class JWTVerificationProvider {
 
     }
 
-    private Algorithm getVerificationAlgorithm(){
-       return Algorithm.RSA256(publicKey, null);
+    private Algorithm getVerificationAlgorithm() {
+        return Algorithm.RSA256(publicKey, null);
     }
 }
