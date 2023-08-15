@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>common-utils</module>
-        <module>auth-server</module>
+        <module>auth-service</module>
         <module>core-service</module>
     </modules>
     <parent>

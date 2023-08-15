@@ -2,6 +2,8 @@ package ir.larxury.core.service.controller;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.core.service.common.aop.exception.CoreServiceException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +14,9 @@ public class Controller {
 
     @GetMapping("hello")
     public String hello(){
-        throw new CoreServiceException(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY);
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return authentication.getName();
     }
 
     @GetMapping("admin")

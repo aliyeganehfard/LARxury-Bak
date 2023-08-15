@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_service
+    username: postgres
+    password: ali.1381
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+#logging:
+#  file:
+#    name: F:/LARxury Start-Up/Back-End/LARxury/auth-server/src/main/resources/logs/auth.log
