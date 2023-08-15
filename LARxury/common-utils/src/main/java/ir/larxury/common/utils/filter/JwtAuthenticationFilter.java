@@ -6,6 +6,7 @@ import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.aop.exception.CommonUtilsException;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
 import ir.larxury.common.utils.service.JWTVerificationProvider;
+import ir.larxury.common.utils.service.UserSecurityService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -32,38 +32,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JWTVerificationProvider JWTVerificationProvider;
 
+    @Autowired
+    private UserSecurityService userSecurityService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-        if (request.getServletPath().equals("/auth/signIn") || request.getServletPath().equals("/auth/signUp") ||
-                request.getServletPath().equals("/auth/token/refresh")) {
-           filterChain.doFilter(request,response);
-           return;
-        }
+            if (request.getServletPath().equals("/auth/signIn") || request.getServletPath().equals("/auth/signUp") ||
+                    request.getServletPath().equals("/auth/token/refresh")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                throw new CommonUtilsException(ErrorCode.TOKEN_IS_MISSING);
+            }
+
+            var token = authHeader.substring("Bearer ".length());
+            DecodedJWT decodedJWT = JWTVerificationProvider.getDecodedJWT(token);
+            var username = decodedJWT.getSubject();
+            var roles = decodedJWT.getClaim(CLAIM_ROLES).asArray(String.class);
+            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            Arrays.stream(roles).forEach(role ->
+                    authorities.add(new SimpleGrantedAuthority(role))
+            );
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            userSecurityService.setCurrentUser(authToken);
+
             filterChain.doFilter(request, response);
-            return;
-        }
 
-        var token = authHeader.substring("Bearer ".length());
-        DecodedJWT decodedJWT = JWTVerificationProvider.getDecodedJWT(token);
-        var username = decodedJWT.getSubject();
-        var roles = decodedJWT.getClaim(CLAIM_ROLES).asArray(String.class);
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        Arrays.stream(roles).forEach(role ->
-                authorities.add(new SimpleGrantedAuthority(role))
-        );
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-
-        filterChain.doFilter(request, response);
-
-        }catch (CommonUtilsException commonUtilsException){
+        } catch (CommonUtilsException commonUtilsException) {
             var res = GeneralResponse.unsuccessfulResponse(commonUtilsException.getErrorCode());
             setResponse(response, res);
-        } catch (Exception e){
+        } catch (Exception e) {
             var res = GeneralResponse.unsuccessfulResponse(ErrorCode.TOKEN_VERIFICATION_UNKNOWN_ERROR);
             setResponse(response, res);
         }
