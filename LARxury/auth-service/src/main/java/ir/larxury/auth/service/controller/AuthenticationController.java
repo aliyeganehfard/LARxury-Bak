@@ -1,8 +1,8 @@
 package ir.larxury.auth.service.controller;
 
-import ir.larxury.auth.service.common.dto.OtpRes;
-import ir.larxury.auth.service.common.dto.SignInDto;
-import ir.larxury.auth.service.common.dto.SignUpDto;
+import ir.larxury.auth.service.common.dto.authentication.OtpRes;
+import ir.larxury.auth.service.common.dto.authentication.SignInDto;
+import ir.larxury.auth.service.common.dto.authentication.SignUpDto;
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.database.model.User;
 import ir.larxury.auth.service.service.AuthService;

@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import ir.larxury.auth.service.common.dto.AuthenticationResponse;
+import ir.larxury.auth.service.common.dto.authentication.AuthenticationResponse;
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.common.utils.PrivateKeyReader;
 import ir.larxury.common.utils.common.aop.ErrorCode;

@@ -1,15 +1,14 @@
 package ir.larxury.auth.service.service.impl;
 
 import ir.larxury.auth.service.common.aop.exception.AuthException;
-import ir.larxury.auth.service.common.dto.AuthenticationResponse;
-import ir.larxury.auth.service.common.dto.SignInDto;
+import ir.larxury.auth.service.common.dto.authentication.AuthenticationResponse;
+import ir.larxury.auth.service.common.dto.authentication.SignInDto;
 import ir.larxury.auth.service.database.model.User;
 import ir.larxury.auth.service.security.jwt.JwtService;
 import ir.larxury.auth.service.service.AuthService;
 import ir.larxury.auth.service.service.OtpService;
 import ir.larxury.auth.service.service.UserService;
 import ir.larxury.common.utils.common.aop.ErrorCode;
-import ir.larxury.common.utils.service.UserSecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

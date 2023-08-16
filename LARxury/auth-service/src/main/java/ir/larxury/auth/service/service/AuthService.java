@@ -1,7 +1,7 @@
 package ir.larxury.auth.service.service;
 
-import ir.larxury.auth.service.common.dto.AuthenticationResponse;
-import ir.larxury.auth.service.common.dto.SignInDto;
+import ir.larxury.auth.service.common.dto.authentication.AuthenticationResponse;
+import ir.larxury.auth.service.common.dto.authentication.SignInDto;
 import ir.larxury.auth.service.database.model.User;
 
 public interface AuthService {

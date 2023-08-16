@@ -1,4 +1,4 @@
-package ir.larxury.auth.service.common.dto;
+package ir.larxury.auth.service.common.dto.authentication;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
