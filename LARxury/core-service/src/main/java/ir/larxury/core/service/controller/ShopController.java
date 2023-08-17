@@ -29,7 +29,7 @@ public class ShopController {
     @PostMapping("save")
     public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopReq req){
         var shop = mapper.map(req, Shop.class);
-        shopService.save(shop);
+        shopService.saveNewShop(shop);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }

@@ -1,7 +1,10 @@
 package ir.larxury.core.service.service.impl;
 
+import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.service.UserSecurityService;
+import ir.larxury.core.service.common.aop.exception.CoreServiceException;
 import ir.larxury.core.service.database.model.Shop;
+import ir.larxury.core.service.database.model.enums.ShopStatus;
 import ir.larxury.core.service.database.repository.ShopRepository;
 import ir.larxury.core.service.provider.AuthProviderImpl;
 import ir.larxury.core.service.service.ShopService;
@@ -23,11 +26,22 @@ public class ShopServiceImpl implements ShopService {
     private UserSecurityService userSecurityService;
 
     @Override
-    public void save(Shop shop) {
+    public void saveNewShop(Shop shop) {
+
+        if (existByName(shop.getName())){
+            log.error(ErrorCode.CORE_SERVICE_DUPLICATE_SHOP_NAME.getTechnicalMessage() + " shop name = {}" , shop.getName());
+            throw new CoreServiceException(ErrorCode.CORE_SERVICE_DUPLICATE_SHOP_NAME);
+        }
+
         String currentUser = userSecurityService.getCurrentUser();
         var userId = authProvider.getUserId(currentUser);
         shop.setUserId(userId);
+        shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
         shopRepository.save(shop);
         log.info("save shop with id {}", shop.getId());
+    }
+
+    private Boolean existByName(String shopName){
+        return shopRepository.existsByName(shopName);
     }
 }

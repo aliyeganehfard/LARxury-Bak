@@ -1,5 +1,6 @@
 package ir.larxury.core.service.database.model;
 
+import ir.larxury.core.service.database.model.enums.ShopStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,10 @@ public class Shop {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "shop_staus", nullable = false)
+    private ShopStatus shopStatus;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;

@@ -29,7 +29,8 @@ public enum ErrorCode {
     AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER(37,"OTP with this phone number was not found!","هیچ کد تاییدی با این شماره تماس پیدا نشد"),
     CORE_SERVICE_CONNECTION_ERROR(1200,"trouble to send http request!","مشکلی در برقراری ارتباط با سرویس های دیگر رخ داده"),
     CORE_SERVICE_UNSUCCESSFUL_REQUEST(1201,"request is unsuccessful!","درخواست ناموفق بود"),
-    CORE_SERVICE_TROUBLE_TO_PARS_DATA(1202,"trouble to parse incoming data from other service!","مشکل در تجزیه داده های دریافتی از سرویس های دیگر");
+    CORE_SERVICE_TROUBLE_TO_PARS_DATA(1202,"trouble to parse incoming data from other service!","مشکل در تجزیه داده های دریافتی از سرویس های دیگر"),
+    CORE_SERVICE_DUPLICATE_SHOP_NAME(1203,"shop with this name already exists!","فروشگاهی با این نام در حال حاضر وجود دارد");
 
     private final Integer code;
     private final String technicalMessage;
