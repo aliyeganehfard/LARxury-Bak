@@ -41,6 +41,15 @@ public class BootStrap {
         admin.setPhoneNumber("09166761607");
         admin.getRoles().add(roles.get(0));
         userRepository.save(admin);
+
+
+        User user = new User();
+        user.setUsername("user");
+        String userPass = passwordEncoder.encode("user");
+        user.setPassword(userPass);
+        user.setPhoneNumber("09166761607");
+        user.getRoles().add(roles.get(3));
+        userRepository.save(user);
 //
 //        Role adminRole = new Role();
 //        adminRole.setName("ROLE_ADMIN");

@@ -1,11 +1,10 @@
-package ir.larxury.auth.service.security.config;
+package ir.larxury.auth.service.config.security;
 
 import ir.larxury.common.utils.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +30,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/admin").hasRole("ADMIN")
+//                        .requestMatchers("/api/admin").hasRole("ADMIN")
                         .requestMatchers("/api/all").hasAnyRole("ADMIN","USER")
                         .requestMatchers("/api/hello").permitAll()
                         .anyRequest().authenticated()

@@ -4,7 +4,7 @@ import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.common.dto.authentication.AuthenticationResponse;
 import ir.larxury.auth.service.common.dto.authentication.SignInDto;
 import ir.larxury.auth.service.database.model.User;
-import ir.larxury.auth.service.security.jwt.JwtService;
+import ir.larxury.auth.service.config.jwt.JwtService;
 import ir.larxury.auth.service.service.AuthService;
 import ir.larxury.auth.service.service.OtpService;
 import ir.larxury.auth.service.service.UserService;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ir.larxury.auth.service.security.jwt.JwtService.CLAIM_ROLES;
+import static ir.larxury.auth.service.config.jwt.JwtService.CLAIM_ROLES;
 
 @Slf4j
 @Service

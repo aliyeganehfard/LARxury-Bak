@@ -3,6 +3,7 @@ package ir.larxury.auth.service.controller;
 import ir.larxury.common.utils.service.UserSecurityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,15 @@ public class DataController {
     private UserSecurityService userSecurityService;
     private final ModelMapper mapper = new ModelMapper();
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("admin")
     public String admin(){
+        return userSecurityService.getCurrentUser();
+    }
+
+    @PreAuthorize("hasAnyRole('USER')")
+    @GetMapping("user")
+    public String user(){
         return userSecurityService.getCurrentUser();
     }
 

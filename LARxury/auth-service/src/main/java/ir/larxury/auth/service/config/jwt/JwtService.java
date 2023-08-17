@@ -1,4 +1,4 @@
-package ir.larxury.auth.service.security.jwt;
+package ir.larxury.auth.service.config.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;

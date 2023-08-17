@@ -25,7 +25,7 @@ public class ShopController {
 
     private final ModelMapper mapper = new ModelMapper();
 
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("save")
     public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopReq req){
         var shop = mapper.map(req, Shop.class);

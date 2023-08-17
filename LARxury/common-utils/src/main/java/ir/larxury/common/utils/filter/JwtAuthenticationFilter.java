@@ -67,7 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             var res = GeneralResponse.unsuccessfulResponse(commonUtilsException.getErrorCode());
             setResponse(response, res);
         } catch (Exception e) {
-            var res = GeneralResponse.unsuccessfulResponse(ErrorCode.TOKEN_VERIFICATION_UNKNOWN_ERROR);
+            var res = GeneralResponse.unsuccessfulResponse(ErrorCode.INTERNAL_SERVER_ERROR);
             setResponse(response, res);
         }
     }
