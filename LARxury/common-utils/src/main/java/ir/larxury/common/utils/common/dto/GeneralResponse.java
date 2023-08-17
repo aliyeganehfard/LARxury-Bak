@@ -21,7 +21,7 @@ public class GeneralResponse implements Serializable {
     private Object resultData;
 
 
-    public static GeneralResponse successfulResponse(Object resultData, ErrorCode errorCode){
+    public static GeneralResponse successfulResponse(Object resultData, ErrorCode errorCode) {
         return GeneralResponse.builder()
                 .rsCode(errorCode.getCode())
                 .message(errorCode.getMessage())
@@ -30,14 +30,23 @@ public class GeneralResponse implements Serializable {
                 .build();
     }
 
-    public static GeneralResponse unsuccessfulResponse(ErrorCode errorCode){
+    public static GeneralResponse successfulResponse(ErrorCode errorCode) {
+        return GeneralResponse.builder()
+                .rsCode(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .isSuccess(true)
+                .build();
+    }
+
+    public static GeneralResponse unsuccessfulResponse(ErrorCode errorCode) {
         return GeneralResponse.builder()
                 .rsCode(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .isSuccess(false)
                 .build();
     }
-    public static GeneralResponse unsuccessfulResponse(ErrorCode errorCode, String customMessage){
+
+    public static GeneralResponse unsuccessfulResponse(ErrorCode errorCode, String customMessage) {
         return GeneralResponse.builder()
                 .rsCode(errorCode.getCode())
                 .message(customMessage)

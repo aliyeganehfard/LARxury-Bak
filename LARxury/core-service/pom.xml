@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>core-service</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>war</packaging>
 	<name>core-service</name>
 
@@ -52,6 +52,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring webflux-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<!-- Locally -->

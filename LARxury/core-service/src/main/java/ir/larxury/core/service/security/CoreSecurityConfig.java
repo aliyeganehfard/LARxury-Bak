@@ -4,6 +4,7 @@ import ir.larxury.common.utils.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class CoreSecurityConfig {
 
     @Autowired
@@ -26,6 +28,7 @@ public class CoreSecurityConfig {
                         .requestMatchers("/client/admin").hasRole("ADMIN")
                         .requestMatchers("/client/user").hasRole("USER")
                         .requestMatchers("/client/allUsers").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/v1/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS) )

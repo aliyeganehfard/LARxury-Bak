@@ -8,4 +8,5 @@ public class CoreServiceException extends GeneralException {
     public CoreServiceException(ErrorCode errorCode) {
         super(errorCode);
     }
+
 }

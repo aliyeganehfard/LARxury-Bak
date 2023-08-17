@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
+
 @ControllerAdvice
 public class GeneralExceptionHandler {
 
@@ -30,9 +32,9 @@ public class GeneralExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<GeneralResponse> handleException(Exception exception){
-        var res = GeneralResponse.unsuccessfulResponse(ErrorCode.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<GeneralResponse> handleException(Exception exception){
+//        var res = GeneralResponse.unsuccessfulResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+//        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+//    }
 }
