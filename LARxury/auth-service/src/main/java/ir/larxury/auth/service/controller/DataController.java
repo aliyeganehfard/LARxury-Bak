@@ -22,6 +22,18 @@ public class DataController {
         return userSecurityService.getCurrentUser();
     }
 
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    @GetMapping("manager")
+    public String manager(){
+        return userSecurityService.getCurrentUser();
+    }
+
+    @PreAuthorize("hasAnyRole('SHOP_ADMIN')")
+    @GetMapping("shopAdmin")
+    public String shopAdmin(){
+        return userSecurityService.getCurrentUser();
+    }
+
     @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("user")
     public String user(){

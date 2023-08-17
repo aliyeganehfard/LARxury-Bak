@@ -29,7 +29,7 @@ public class BootStrap {
 
         List<Role> roles = Arrays.asList(
                 Role.builder().name("ROLE_ADMIN").build(),
-                Role.builder().name("ROLE_SUPPORT").build(),
+                Role.builder().name("ROLE_MANAGER").build(),
                 Role.builder().name("ROLE_SHOP_ADMIN").build(),
                 Role.builder().name("ROLE_USER").build()
         );
@@ -42,6 +42,22 @@ public class BootStrap {
         admin.getRoles().add(roles.get(0));
         userRepository.save(admin);
 
+
+        User manager = new User();
+        manager.setUsername("manager");
+        String managerPass = passwordEncoder.encode("manager");
+        manager.setPassword(managerPass);
+        manager.setPhoneNumber("09166761607");
+        manager.getRoles().add(roles.get(1));
+        userRepository.save(manager);
+
+        User shopAdmin = new User();
+        shopAdmin.setUsername("shop");
+        String shopAdminPass = passwordEncoder.encode("shop");
+        shopAdmin.setPassword(shopAdminPass);
+        shopAdmin.setPhoneNumber("09166761607");
+        shopAdmin.getRoles().add(roles.get(2));
+        userRepository.save(shopAdmin);
 
         User user = new User();
         user.setUsername("user");
