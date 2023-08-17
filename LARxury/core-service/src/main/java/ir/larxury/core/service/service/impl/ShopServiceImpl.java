@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -39,6 +41,11 @@ public class ShopServiceImpl implements ShopService {
         shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
         shopRepository.save(shop);
         log.info("save shop with id {}", shop.getId());
+    }
+
+    @Override
+    public List<Shop> findAwaitingConfirmation() {
+        return shopRepository.findAllByShopStatus(ShopStatus.AWAITING_CONFIRMATION);
     }
 
     private Boolean existByName(String shopName){

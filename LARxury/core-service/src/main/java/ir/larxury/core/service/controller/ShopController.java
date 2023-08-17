@@ -2,7 +2,7 @@ package ir.larxury.core.service.controller;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
-import ir.larxury.core.service.common.dto.shop.ShopReq;
+import ir.larxury.core.service.common.dto.shop.req.ShopReq;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.service.ShopService;
 import jakarta.validation.Valid;
@@ -32,5 +32,13 @@ public class ShopController {
         shopService.saveNewShop(shop);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PostMapping("find/awaiting/confirmation")
+    public ResponseEntity<GeneralResponse> findAwaitingConfirmation(){
+        var shops = shopService.findAwaitingConfirmation();
+        var res = GeneralResponse.successfulResponse(shops,ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 }

@@ -1,4 +1,4 @@
-package ir.larxury.core.service.common.dto.shop;
+package ir.larxury.core.service.common.dto.shop.req;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
