@@ -1,6 +1,5 @@
-package ir.larxury.core.service.config;
+package ir.larxury.core.service.config.provider;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.larxury.core.service.provider.request.AuthProvider;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class HttpExchangeConfig {
 
     @Bean
-    WebClient webClient(ObjectMapper objectMapper) {
+    WebClient webClient() {
         return WebClient.builder()
                 .baseUrl("http://localhost:8080/")
                 .build();

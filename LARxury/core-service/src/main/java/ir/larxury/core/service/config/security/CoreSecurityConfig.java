@@ -1,4 +1,4 @@
-package ir.larxury.core.service.security;
+package ir.larxury.core.service.config.security;
 
 import ir.larxury.common.utils.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
