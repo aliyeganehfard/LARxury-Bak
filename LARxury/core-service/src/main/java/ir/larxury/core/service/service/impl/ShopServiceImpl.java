@@ -1,16 +1,18 @@
 package ir.larxury.core.service.service.impl;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
-import ir.larxury.common.utils.service.UserSecurityService;
+import ir.larxury.common.utils.service.JWTVerificationService;
 import ir.larxury.core.service.common.aop.exception.CoreServiceException;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import ir.larxury.core.service.database.repository.ShopRepository;
 import ir.larxury.core.service.provider.AuthProviderImpl;
+import ir.larxury.core.service.provider.request.AuthProvider;
 import ir.larxury.core.service.service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,21 +24,21 @@ public class ShopServiceImpl implements ShopService {
     private ShopRepository shopRepository;
 
     @Autowired
-    private AuthProviderImpl authProvider;
+    private JWTVerificationService jwtVerificationService;
 
     @Autowired
-    private UserSecurityService userSecurityService;
+    private AuthProviderImpl authProvider;
 
     @Override
-    public void saveNewShop(Shop shop) {
+    @Transactional
+    public void saveNewShop(Shop shop, String token) {
 
-        if (existByName(shop.getName())){
-            log.error(ErrorCode.CORE_SERVICE_DUPLICATE_SHOP_NAME.getTechnicalMessage() + " shop name = {}" , shop.getName());
+        if (existByName(shop.getName())) {
+            log.error(ErrorCode.CORE_SERVICE_DUPLICATE_SHOP_NAME.getTechnicalMessage() + " shop name = {}", shop.getName());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_DUPLICATE_SHOP_NAME);
         }
 
-        String currentUser = userSecurityService.getCurrentUser();
-        var userId = authProvider.getUserId(currentUser);
+        var userId = jwtVerificationService.getUuid(token);
         shop.setUserId(userId);
         shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
         shopRepository.save(shop);
@@ -48,7 +50,29 @@ public class ShopServiceImpl implements ShopService {
         return shopRepository.findAllByShopStatus(ShopStatus.AWAITING_CONFIRMATION);
     }
 
-    private Boolean existByName(String shopName){
+    @Override
+    public void approveShop(Long shopId) {
+        var shop = findById(shopId);
+        authProvider.setShopAdminRoleToUser(shop.getUserId());
+        shop.setShopStatus(ShopStatus.CONFIRM);
+        update(shop);
+        log.info("shop with id = {} confirmed ",shop.getId());
+    }
+
+    private Shop findById(Long shopId) {
+        return shopRepository.findById(shopId).orElseThrow(() -> {
+            log.error(ErrorCode.CORE_SERVICE_SHOP_NOT_FOUND.getTechnicalMessage() + " with shop id = {}", shopId);
+            return new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_NOT_FOUND);
+        });
+    }
+
+    private Boolean existByName(String shopName) {
         return shopRepository.existsByName(shopName);
+    }
+
+    @Transactional
+    protected void update(Shop shop){
+        log.info("shop update with id = {} ", shop.getId());
+        shopRepository.save(shop);
     }
 }

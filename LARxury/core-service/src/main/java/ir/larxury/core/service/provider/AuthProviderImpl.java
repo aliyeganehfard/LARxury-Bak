@@ -31,6 +31,17 @@ public class AuthProviderImpl {
     @Value("${auth.service.password}")
     private String password;
 
+    public void setShopAdminRoleToUser(String userId){
+        var token = "Bearer " + login();
+        try {
+            var generalResponse = authProvider.addShopAdmin(userId, token);
+            getResponseObject(generalResponse, null);
+        }catch (Exception e){
+            log.error(ErrorCode.CORE_SERVICE_CONNECTION_ERROR.getTechnicalMessage());
+            throw new CoreServiceException(ErrorCode.CORE_SERVICE_CONNECTION_ERROR);
+        }
+    }
+
     public Long getUserId(String username) {
         var token = "Bearer " + login();
         try {
@@ -60,10 +71,14 @@ public class AuthProviderImpl {
     public <T> T getResponseObject(GeneralResponse response, Class<T> tClass){
         if (Boolean.TRUE.equals(response.getIsSuccess())) {
             if (response.getResultData() != null) {
-                return mapper.map(response.getResultData(),tClass);
+                try {
+                    return mapper.map(response.getResultData(), tClass);
+                }catch (Exception e){
+                    log.error(ErrorCode.CORE_SERVICE_TROUBLE_TO_PARS_DATA.getTechnicalMessage());
+                    throw new CoreServiceException(ErrorCode.CORE_SERVICE_TROUBLE_TO_PARS_DATA);
+                }
             } else {
-                log.error(ErrorCode.CORE_SERVICE_TROUBLE_TO_PARS_DATA.getTechnicalMessage());
-                throw new CoreServiceException(ErrorCode.CORE_SERVICE_TROUBLE_TO_PARS_DATA);
+               return null;
             }
         } else {
             log.error(ErrorCode.getTechnicalMessageByCode(response.getRsCode()).getTechnicalMessage());

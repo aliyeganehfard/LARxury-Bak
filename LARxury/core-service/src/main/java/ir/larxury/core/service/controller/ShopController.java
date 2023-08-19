@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/shop/")
@@ -26,19 +23,36 @@ public class ShopController {
     private final ModelMapper mapper = new ModelMapper();
 
     @PreAuthorize("hasAnyRole('USER')")
-    @PostMapping("save")
-    public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopReq req){
+    @PostMapping("register")
+    public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopReq req,
+                                                @RequestHeader("Authorization") String token) {
         var shop = mapper.map(req, Shop.class);
-        shopService.saveNewShop(shop);
+        shopService.saveNewShop(shop, token);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAnyRole('MANAGER')")
     @PostMapping("find/awaiting/confirmation")
-    public ResponseEntity<GeneralResponse> findAwaitingConfirmation(){
+    public ResponseEntity<GeneralResponse> findAwaitingConfirmation() {
         var shops = shopService.findAwaitingConfirmation();
-        var res = GeneralResponse.successfulResponse(shops,ErrorCode.SUCCESSFUL);
+        var res = GeneralResponse.successfulResponse(shops, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PostMapping("registration/state/approve")
+    public ResponseEntity<GeneralResponse> approveShop(@RequestParam(name = "shopId") Long shopId) {
+        shopService.approveShop(shopId);
+        var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PostMapping("registration/state/reject")
+    public ResponseEntity<GeneralResponse> rejectShop(@RequestParam(name = "shopId") Long shopId) {
+        var shops = shopService.findAwaitingConfirmation();
+        var res = GeneralResponse.successfulResponse(shops, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

@@ -17,4 +17,8 @@ public interface AuthProvider {
     @PostExchange("v1/user/find/userId")
     GeneralResponse findUserId(@RequestParam("username") String username,
                                @RequestHeader("Authorization") String token);
+
+    @PostExchange("v1/user/role/add/shopAdmin")
+    GeneralResponse addShopAdmin(@RequestParam("userId") String userId,
+                               @RequestHeader("Authorization") String token);
 }

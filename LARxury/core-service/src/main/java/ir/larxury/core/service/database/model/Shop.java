@@ -3,7 +3,6 @@ package ir.larxury.core.service.database.model;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
 
 @Builder
@@ -35,7 +34,7 @@ public class Shop {
     private ShopStatus shopStatus;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String userId;
 
 
     @PrePersist

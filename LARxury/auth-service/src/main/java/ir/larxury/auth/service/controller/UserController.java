@@ -26,8 +26,8 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('MANAGER')")
     @PostMapping("role/add/shopAdmin")
-    public ResponseEntity<GeneralResponse> setShopAdminRole(@RequestParam(name = "id") String id) {
-        userService.setShopAdminRole(id);
+    public ResponseEntity<GeneralResponse> setShopAdminRole(@RequestParam(name = "userId") String userId) {
+        userService.setShopAdminRole(userId);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

@@ -30,7 +30,7 @@
         <postgresql.version>42.6.0</postgresql.version>
         <lombok.version>1.18.28</lombok.version>
         <spring-security-test.version>6.1.2</spring-security-test.version>
-        <common-utils.version>1.2.2</common-utils.version>
+        <common-utils.version>1.2.4</common-utils.version>
     </properties>
 
     <dependencyManagement>

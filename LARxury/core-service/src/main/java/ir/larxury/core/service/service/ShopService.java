@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface ShopService {
 
-    void saveNewShop(Shop shop);
+    void saveNewShop(Shop shop, String token);
 
     List<Shop> findAwaitingConfirmation();
+
+    void approveShop(Long shopId);
 }
