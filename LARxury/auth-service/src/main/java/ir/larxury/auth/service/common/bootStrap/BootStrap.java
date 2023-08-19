@@ -2,6 +2,7 @@ package ir.larxury.auth.service.common.bootStrap;
 
 import ir.larxury.auth.service.database.model.Role;
 import ir.larxury.auth.service.database.model.User;
+import ir.larxury.auth.service.database.model.enums.RoleName;
 import ir.larxury.auth.service.database.repository.RoleRepository;
 import ir.larxury.auth.service.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,10 @@ public class BootStrap {
     public void init(){
 
         List<Role> roles = Arrays.asList(
-                Role.builder().name("ROLE_ADMIN").build(),
-                Role.builder().name("ROLE_MANAGER").build(),
-                Role.builder().name("ROLE_SHOP_ADMIN").build(),
-                Role.builder().name("ROLE_USER").build()
+                Role.builder().name(RoleName.ROLE_ADMIN).build(),
+                Role.builder().name(RoleName.ROLE_MANAGER).build(),
+                Role.builder().name(RoleName.ROLE_SHOP_ADMIN).build(),
+                Role.builder().name(RoleName.ROLE_USER).build()
         );
         roleRepository.saveAll(roles);
         User admin = new User();

@@ -23,4 +23,12 @@ public class UserController {
         var res = GeneralResponse.successfulResponse(userId, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PostMapping("role/add/shopAdmin")
+    public ResponseEntity<GeneralResponse> setShopAdminRole(@RequestParam(name = "id") String id) {
+        userService.setShopAdminRole(id);
+        var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
 }

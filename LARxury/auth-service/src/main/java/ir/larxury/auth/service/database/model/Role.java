@@ -1,5 +1,6 @@
 package ir.larxury.auth.service.database.model;
 
+import ir.larxury.auth.service.database.model.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -22,8 +23,9 @@ public class Role {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", nullable = false, unique = true)
+    private RoleName name;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;

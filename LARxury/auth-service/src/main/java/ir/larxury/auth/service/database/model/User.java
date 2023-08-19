@@ -43,7 +43,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @ToString.Exclude
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -55,7 +55,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         roles.forEach(role ->
-                authorities.add(new SimpleGrantedAuthority(role.getName()))
+                authorities.add(new SimpleGrantedAuthority(role.getName().toString()))
         );
         return authorities;
     }
