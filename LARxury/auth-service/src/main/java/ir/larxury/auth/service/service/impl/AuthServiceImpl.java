@@ -17,13 +17,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static ir.larxury.auth.service.config.jwt.JwtService.CLAIM_ROLES;
+import static ir.larxury.common.utils.service.JWTVerificationService.CLAIM_ROLES;
+import static ir.larxury.common.utils.service.JWTVerificationService.UUID;
 
 @Slf4j
 @Service
@@ -97,8 +96,10 @@ public class AuthServiceImpl implements AuthService {
 
     private AuthenticationResponse getAuthenticationResponse(User user) {
         List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        List<String> uuid = List.of(user.getId().toString());
         Map<String, List<String>> payload = new HashMap<>();
         payload.put(CLAIM_ROLES, roles);
+        payload.put(UUID,uuid);
         return jwtService.getToken(payload, user);
     }
 }

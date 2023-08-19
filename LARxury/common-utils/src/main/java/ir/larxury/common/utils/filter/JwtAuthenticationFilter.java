@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.aop.exception.CommonUtilsException;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
-import ir.larxury.common.utils.service.JWTVerificationProvider;
+import ir.larxury.common.utils.service.JWTVerificationService;
 import ir.larxury.common.utils.service.UserSecurityService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,14 +23,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ir.larxury.common.utils.service.JWTVerificationProvider.CLAIM_ROLES;
+import static ir.larxury.common.utils.service.JWTVerificationService.CLAIM_ROLES;
 
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JWTVerificationProvider JWTVerificationProvider;
+    private JWTVerificationService JWTVerificationService;
 
     @Autowired
     private UserSecurityService userSecurityService;
@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             var token = authHeader.substring("Bearer ".length());
-            DecodedJWT decodedJWT = JWTVerificationProvider.getDecodedJWT(token);
+            DecodedJWT decodedJWT = JWTVerificationService.getDecodedJWT(token);
             var username = decodedJWT.getSubject();
             var roles = decodedJWT.getClaim(CLAIM_ROLES).asArray(String.class);
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();

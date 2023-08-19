@@ -16,12 +16,13 @@ import org.springframework.stereotype.Service;
 import java.security.interfaces.RSAPublicKey;
 
 @Service
-public class JWTVerificationProvider {
+public class JWTVerificationService {
 
     public static final String CLAIM_ROLES = "roles";
+    public static final String UUID = "UUID";
     private RSAPublicKey publicKey;
 
-    private final Logger log = LoggerFactory.getLogger(JWTVerificationProvider.class);
+    private final Logger log = LoggerFactory.getLogger(JWTVerificationService.class);
 
     @Autowired
     public void init() {
@@ -39,6 +40,9 @@ public class JWTVerificationProvider {
     }
 
     public DecodedJWT getDecodedJWT(String token) {
+        if (token.startsWith("Bearer")){
+            token = token.substring("Bearer ".length());
+        }
         try {
             JWTVerifier verifier = JWT.require(getVerificationAlgorithm()).build();
             DecodedJWT decodedJWT = verifier.verify(token);
@@ -52,6 +56,13 @@ public class JWTVerificationProvider {
             throw new CommonUtilsException(ErrorCode.TOKEN_INVALID);
         }
 
+    }
+
+    public String getUuid(String token){
+        var decodedJWT = getDecodedJWT(token);
+        return decodedJWT.getClaim(UUID)
+                .asList(String.class)
+                .get(0);
     }
 
     private Algorithm getVerificationAlgorithm() {

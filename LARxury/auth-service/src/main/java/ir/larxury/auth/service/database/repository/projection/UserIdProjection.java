@@ -2,11 +2,13 @@ package ir.larxury.auth.service.database.repository.projection;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class UserIdProjection {
-    private Long id;
+    private UUID id;
 
-    public UserIdProjection(Long id) {
+    public UserIdProjection(UUID id) {
         this.id = id;
     }
 }

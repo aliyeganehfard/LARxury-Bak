@@ -8,7 +8,7 @@ import ir.larxury.auth.service.common.dto.authentication.AuthenticationResponse;
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.common.utils.PrivateKeyReader;
 import ir.larxury.common.utils.common.aop.ErrorCode;
-import ir.larxury.common.utils.service.JWTVerificationProvider;
+import ir.larxury.common.utils.service.JWTVerificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -26,14 +26,13 @@ import java.util.Map;
 public class JwtService {
 
     @Autowired
-    private JWTVerificationProvider jwtVerificationProvider;
+    private JWTVerificationService jwtVerificationService;
 
     @Autowired
     private Environment env;
 
     public Long expirationTokenTime;
     public Long expirationRefreshTokenTime;
-    public static final String CLAIM_ROLES = "roles";
 
     public RSAPrivateKey privateKey;
     public RSAPublicKey publicKey;
@@ -46,7 +45,7 @@ public class JwtService {
             expirationRefreshTokenTime = env.getProperty("auth.service.expiration.refresh.token.time", Long.class, 30L) * 60L * 1000L;
             tokenTypeValue = env.getProperty("auth.service.token.type",String.class,"bearer");
             privateKey = PrivateKeyReader.getPrivateKey("sign_key");
-            publicKey = jwtVerificationProvider.getPublicKey();
+            publicKey = jwtVerificationService.getPublicKey();
         } catch (Exception e) {
             log.error(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY.getTechnicalMessage());
             throw new AuthException(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY);
@@ -65,7 +64,7 @@ public class JwtService {
     }
 
     public DecodedJWT getDecodedJWT(String token) {
-        return jwtVerificationProvider.getDecodedJWT(token);
+        return jwtVerificationService.getDecodedJWT(token);
     }
 
     private String generateAccessToken(Map<String, List<String>> payload, UserDetails userDetails) {
