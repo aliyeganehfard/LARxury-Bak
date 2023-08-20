@@ -28,12 +28,14 @@ public enum ErrorCode {
     AUTH_OTP_IS_ALREADY_USED(36,"OTP is already used!","قبلا از کد تایید استفاده شده است"),
     AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER(37,"OTP with this phone number was not found!","هیچ کد تاییدی با این شماره تماس پیدا نشد"),
     AUTH_ROLE_NOT_FOUND(40,"role not found!","نقش مورد نظر پیدا نشد"),
-    AUTH_ROLE_ACCESS_DENIED_TO_CHANGE(40,"you can only change the users role!","شما تنها می تواند نقش کاربر ها را تغییر دهید"),
+    AUTH_ROLE_ACCESS_DENIED_TO_CHANGE(41,"you can only change the users role!","شما تنها می تواند نقش کاربر ها را تغییر دهید"),
     CORE_SERVICE_CONNECTION_ERROR(1200,"trouble to send http request!","مشکلی در برقراری ارتباط با سرویس های دیگر رخ داده"),
     CORE_SERVICE_UNSUCCESSFUL_REQUEST(1201,"request is unsuccessful!","درخواست ناموفق بود"),
     CORE_SERVICE_TROUBLE_TO_PARS_DATA(1202,"trouble to parse incoming data from other service!","مشکل در تجزیه داده های دریافتی از سرویس های دیگر"),
     CORE_SERVICE_DUPLICATE_SHOP_NAME(1203,"shop with this name already exists!","فروشگاهی با این نام در حال حاضر وجود دارد"),
-    CORE_SERVICE_SHOP_NOT_FOUND(1204,"shop not found!","فروشگاهی با این نام پیدا نشد");
+    CORE_SERVICE_SHOP_NOT_FOUND(1204,"shop not found!","فروشگاهی با این نام پیدا نشد"),
+    CORE_SERVICE_SHOP_EARLIER_APPROVED(1205,"shop earlier approved!","فروشگاه از قبل تایید شده است"),
+    CORE_SERVICE_SHOP_TROUBLE_TO_REJECT(1206,"just shop with awaiting confirmation status can reject!","تنها فروشگاه هایی با وضعیت 'در انتظار تایید' امکان رد/نپدیرفته شدن دارند");
 
     private final Integer code;
     private final String technicalMessage;

@@ -31,54 +31,39 @@ public class AuthProviderImpl {
     @Value("${auth.service.password}")
     private String password;
 
-    public void setShopAdminRoleToUser(String userId){
+    public void setShopAdminRoleToUser(String userId) {
         var token = "Bearer " + login();
-        try {
-            var generalResponse = authProvider.addShopAdmin(userId, token);
-            getResponseObject(generalResponse, null);
-        }catch (Exception e){
-            log.error(ErrorCode.CORE_SERVICE_CONNECTION_ERROR.getTechnicalMessage());
-            throw new CoreServiceException(ErrorCode.CORE_SERVICE_CONNECTION_ERROR);
-        }
+        var generalResponse = authProvider.addShopAdmin(userId, token);
+        getResponseObject(generalResponse, null);
     }
 
     public Long getUserId(String username) {
         var token = "Bearer " + login();
-        try {
-            var generalResponse = authProvider.findUserId(username, token);
-            var userIdRes = getResponseObject(generalResponse, UserIdRes.class);
-            return userIdRes.getId();
-        }catch (Exception e){
-            log.error(ErrorCode.CORE_SERVICE_CONNECTION_ERROR.getTechnicalMessage());
-            throw new CoreServiceException(ErrorCode.CORE_SERVICE_CONNECTION_ERROR);
-        }
+        var generalResponse = authProvider.findUserId(username, token);
+        var userIdRes = getResponseObject(generalResponse, UserIdRes.class);
+        return userIdRes.getId();
     }
 
     protected String login() {
         var req = new AuthSignInReq();
         req.setUsername(username);
         req.setPassword(password);
-        try {
-            var generalResponse = authProvider.login(req);
-            var tokenRes = getResponseObject(generalResponse,AuthSignInRes.class);
-            return tokenRes.getAccessToken();
-        } catch (Exception e) {
-            log.error(ErrorCode.CORE_SERVICE_CONNECTION_ERROR.getTechnicalMessage());
-            throw new CoreServiceException(ErrorCode.CORE_SERVICE_CONNECTION_ERROR);
-        }
+        var generalResponse = authProvider.login(req);
+        var tokenRes = getResponseObject(generalResponse, AuthSignInRes.class);
+        return tokenRes.getAccessToken();
     }
 
-    public <T> T getResponseObject(GeneralResponse response, Class<T> tClass){
+    public <T> T getResponseObject(GeneralResponse response, Class<T> tClass) {
         if (Boolean.TRUE.equals(response.getIsSuccess())) {
             if (response.getResultData() != null) {
                 try {
                     return mapper.map(response.getResultData(), tClass);
-                }catch (Exception e){
+                } catch (Exception e) {
                     log.error(ErrorCode.CORE_SERVICE_TROUBLE_TO_PARS_DATA.getTechnicalMessage());
                     throw new CoreServiceException(ErrorCode.CORE_SERVICE_TROUBLE_TO_PARS_DATA);
                 }
             } else {
-               return null;
+                return null;
             }
         } else {
             log.error(ErrorCode.getTechnicalMessageByCode(response.getRsCode()).getTechnicalMessage());

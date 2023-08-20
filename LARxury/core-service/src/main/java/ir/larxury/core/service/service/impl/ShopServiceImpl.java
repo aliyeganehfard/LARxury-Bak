@@ -53,10 +53,26 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void approveShop(Long shopId) {
         var shop = findById(shopId);
+        if (shop.getShopStatus().getIndex() <= ShopStatus.CONFIRM.getIndex()) {
+            log.error(ErrorCode.CORE_SERVICE_SHOP_EARLIER_APPROVED.getTechnicalMessage() + " shop id = {}", shop.getId());
+            throw new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_EARLIER_APPROVED);
+        }
         authProvider.setShopAdminRoleToUser(shop.getUserId());
         shop.setShopStatus(ShopStatus.CONFIRM);
         update(shop);
-        log.info("shop with id = {} confirmed ",shop.getId());
+        log.info("shop with id = {} confirmed ", shop.getId());
+    }
+
+    @Override
+    public void rejectShop(Long shopId) {
+        var shop = findById(shopId);
+        if (!ShopStatus.AWAITING_CONFIRMATION.equals(shop.getShopStatus())) {
+            log.error(ErrorCode.CORE_SERVICE_SHOP_TROUBLE_TO_REJECT.getTechnicalMessage() + " shop id = {}", shop.getId());
+            throw new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_TROUBLE_TO_REJECT);
+        }
+        shop.setShopStatus(ShopStatus.REJECTION);
+        update(shop);
+        log.info("shop reject with id {} ", shop.getId());
     }
 
     private Shop findById(Long shopId) {
@@ -71,7 +87,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Transactional
-    protected void update(Shop shop){
+    protected void update(Shop shop) {
         log.info("shop update with id = {} ", shop.getId());
         shopRepository.save(shop);
     }

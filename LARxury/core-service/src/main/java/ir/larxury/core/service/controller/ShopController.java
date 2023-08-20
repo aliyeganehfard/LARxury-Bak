@@ -45,14 +45,14 @@ public class ShopController {
     public ResponseEntity<GeneralResponse> approveShop(@RequestParam(name = "shopId") Long shopId) {
         shopService.approveShop(shopId);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
-        return new ResponseEntity<>(res,HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('MANAGER')")
     @PostMapping("registration/state/reject")
     public ResponseEntity<GeneralResponse> rejectShop(@RequestParam(name = "shopId") Long shopId) {
-        var shops = shopService.findAwaitingConfirmation();
-        var res = GeneralResponse.successfulResponse(shops, ErrorCode.SUCCESSFUL);
+        shopService.rejectShop(shopId);
+        var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

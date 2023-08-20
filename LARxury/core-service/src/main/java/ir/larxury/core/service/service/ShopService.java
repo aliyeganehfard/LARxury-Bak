@@ -11,4 +11,6 @@ public interface ShopService {
     List<Shop> findAwaitingConfirmation();
 
     void approveShop(Long shopId);
+
+    void rejectShop(Long shopId);
 }

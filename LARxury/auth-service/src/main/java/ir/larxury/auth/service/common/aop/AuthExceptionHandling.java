@@ -12,8 +12,9 @@ public class AuthExceptionHandling {
 
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<GeneralResponse> handleAuthException(AuthException authException){
+        authException.printStackTrace();
         var res = GeneralResponse.unsuccessfulResponse(authException.getErrorCode());
-        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }
