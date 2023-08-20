@@ -6,6 +6,7 @@
         <module>common-utils</module>
         <module>auth-service</module>
         <module>core-service</module>
+        <module>message-dispatcher</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
