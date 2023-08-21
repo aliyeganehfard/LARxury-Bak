@@ -92,6 +92,13 @@
                 <version>${spring-boot.version}</version>
             </dependency>
 
+            <!-- Spring mail sender -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
             <!-- Local dependency -->
             <dependency>
                 <groupId>ir.larxury</groupId>
