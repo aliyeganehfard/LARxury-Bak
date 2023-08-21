@@ -6,15 +6,15 @@ import ir.larxury.auth.service.common.dto.authentication.SignInDto;
 import ir.larxury.auth.service.database.model.User;
 import ir.larxury.auth.service.config.jwt.JwtService;
 import ir.larxury.auth.service.database.model.enums.AuthenticationOperationType;
-import ir.larxury.auth.service.database.repository.AuthenticationLogRepository;
 import ir.larxury.auth.service.service.AuthService;
 import ir.larxury.auth.service.service.AuthenticationLogService;
 import ir.larxury.auth.service.service.OtpService;
 import ir.larxury.auth.service.service.UserService;
+import ir.larxury.auth.service.service.provider.MessageDispatcherService;
 import ir.larxury.common.utils.common.aop.ErrorCode;
-import ir.larxury.common.utils.common.aop.exception.CommonUtilsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import static ir.larxury.common.utils.service.JWTVerificationService.CLAIM_ROLES;
@@ -52,6 +54,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private AuthenticationLogService authLogService;
 
+    @Autowired
+    private MessageDispatcherService messageDispatcherService;
+
     @Override
     public AuthenticationResponse signUp(User user, String confirmPassword) {
         if (!user.getPassword().equals(confirmPassword)) {
@@ -65,26 +70,25 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthenticationResponse signIn(SignInDto signInDto) {
+    public AuthenticationResponse signIn(String username, String password) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword())
+                    new UsernamePasswordAuthenticationToken(username, password)
             );
         } catch (BadCredentialsException badCredentialsException) {
-            var user = userService.findByUsername(signInDto.getUsername());
+            var user = userService.findByUsername(username);
             authLogService.failedAttempt(user, AuthenticationOperationType.ACCESS_TOKEN);
-            log.error(ErrorCode.AUTH_INCORRECT_PASSWORD.getTechnicalMessage() + " for username {}", signInDto.getUsername());
+            log.error(ErrorCode.AUTH_INCORRECT_PASSWORD.getTechnicalMessage() + " for username {}", username);
             throw new AuthException(ErrorCode.AUTH_INCORRECT_PASSWORD);
         }
 
-
-        var user = userService.findByUsername(signInDto.getUsername());
+        var user = userService.findByUsername(username);
         log.info("user = {} signed in!", user.getUsername());
         return getAuthenticationResponse(user, AuthenticationOperationType.ACCESS_TOKEN);
     }
 
     @Override
-    public AuthenticationResponse signIn(String phoneNumber, String otpCode) {
+    public AuthenticationResponse signInWithOtp(String phoneNumber, String otpCode) {
         var user = userService.findByPhoneNumber(phoneNumber);
         otpService.validateOTP(user, otpCode);
         return getAuthenticationResponse(user, AuthenticationOperationType.ACCESS_TOKEN);
@@ -93,7 +97,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String sendOtp(String phoneNumber) {
         var user = userService.findByPhoneNumber(phoneNumber);
-        return otpService.sendOtp(user);
+        String otp = otpService.sendOtp(user);
+        messageDispatcherService.sendVerify(otp, user.getEmail());
+        return otp;
     }
 
     @Override

@@ -8,9 +8,9 @@ public interface AuthService {
 
      AuthenticationResponse signUp(User user, String confirmPassword);
 
-    AuthenticationResponse signIn(SignInDto signInDto);
+    AuthenticationResponse signIn(String username, String password);
 
-    AuthenticationResponse signIn(String phoneNumber, String otpCode);
+    AuthenticationResponse signInWithOtp(String phoneNumber, String otpCode);
 
     String sendOtp(String phoneNumber);
 

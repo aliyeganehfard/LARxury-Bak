@@ -41,6 +41,7 @@ public class BootStrap {
         admin.setPassword(adminPass);
         admin.setPhoneNumber("09166761607");
         admin.getRoles().add(roles.get(0));
+        admin.setEmail("aliyeganefard81@gmail.com");
         userRepository.save(admin);
 
 
@@ -48,7 +49,7 @@ public class BootStrap {
         manager.setUsername("manager");
         String managerPass = passwordEncoder.encode("manager");
         manager.setPassword(managerPass);
-        manager.setPhoneNumber("09166761607");
+        manager.setPhoneNumber("09166761606");
         manager.getRoles().add(roles.get(1));
         userRepository.save(manager);
 
@@ -56,7 +57,7 @@ public class BootStrap {
         shopAdmin.setUsername("shop");
         String shopAdminPass = passwordEncoder.encode("shop");
         shopAdmin.setPassword(shopAdminPass);
-        shopAdmin.setPhoneNumber("09166761607");
+        shopAdmin.setPhoneNumber("09166761605");
         shopAdmin.getRoles().add(roles.get(2));
         userRepository.save(shopAdmin);
 
@@ -64,7 +65,7 @@ public class BootStrap {
         user.setUsername("user");
         String userPass = passwordEncoder.encode("user");
         user.setPassword(userPass);
-        user.setPhoneNumber("09166761607");
+        user.setPhoneNumber("09166761604");
         user.getRoles().add(roles.get(3));
         userRepository.save(user);
 //

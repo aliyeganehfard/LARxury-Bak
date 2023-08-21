@@ -1,7 +1,6 @@
 package ir.larxury.auth.service.controller;
 
 import ir.larxury.auth.service.common.dto.authentication.OtpRes;
-import ir.larxury.auth.service.common.dto.authentication.SignInDto;
 import ir.larxury.auth.service.common.dto.authentication.SignUpDto;
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.database.model.User;
@@ -14,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,8 +34,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("signIn")
-    public ResponseEntity<GeneralResponse> signIn(@RequestBody @Valid SignInDto req) {
-        var jwt = authService.signIn(req);
+    public ResponseEntity<GeneralResponse> signIn(@RequestBody MultiValueMap<String, String> formData) {
+        String username = formData.getFirst("username");
+        String password = formData.getFirst("password");
+        var jwt = authService.signIn(username, password);
         var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
@@ -53,7 +55,7 @@ public class AuthenticationController {
     public ResponseEntity<GeneralResponse> verifyOtp(
             @RequestParam("phoneNumber") String phoneNumber,
             @RequestParam("otpCode") String otpCode) {
-        var jwt = authService.signIn(phoneNumber, otpCode);
+        var jwt = authService.signInWithOtp(phoneNumber, otpCode);
         var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
