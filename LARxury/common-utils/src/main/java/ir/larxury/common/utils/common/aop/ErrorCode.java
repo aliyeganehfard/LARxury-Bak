@@ -29,6 +29,8 @@ public enum ErrorCode {
     AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER(37,"OTP with this phone number was not found!","هیچ کد تاییدی با این شماره تماس پیدا نشد"),
     AUTH_ROLE_NOT_FOUND(40,"role not found!","نقش مورد نظر پیدا نشد"),
     AUTH_ROLE_ACCESS_DENIED_TO_CHANGE(41,"you can only change the users role!","شما تنها می تواند نقش کاربر ها را تغییر دهید"),
+    AUTH_INTERNAL_ERROR_IN_SENDING_OTP(50,"there was a internal error in sending the verification code!","خطای درونی در ارسال کد تایید پیش امده"),
+    AUTH_TROUBLE_TO_SEND_OTP(51,"there was a problem sending the verification code!","مشکلی در ارسال کد تایید پیش امده"),
     CORE_SERVICE_CONNECTION_ERROR(1200,"trouble to send http request!","مشکلی در برقراری ارتباط با سرویس های دیگر رخ داده"),
     CORE_SERVICE_UNSUCCESSFUL_REQUEST(1201,"request is unsuccessful!","درخواست ناموفق بود"),
     CORE_SERVICE_TROUBLE_TO_PARS_DATA(1202,"trouble to parse incoming data from other service!","مشکل در تجزیه داده های دریافتی از سرویس های دیگر"),

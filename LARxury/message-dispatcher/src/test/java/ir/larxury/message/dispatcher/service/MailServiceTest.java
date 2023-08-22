@@ -10,12 +10,17 @@ import java.util.List;
 class MailServiceTest {
 
     @Autowired
-    private Notifier notifier;
+    private MailService mailService;
 
     @Test
     void instantDelivery() {
-        notifier.InstantDelivery("LARxury","welcome to LARxury ALI",
+        mailService.InstantDelivery("LARxury","welcome to LARxury ALI",
                 List.of("aliyeganefard81@gmail.com","aliyegane1381fard@gmail.com",
                         "ali.yegane1753@gmail.com"));
+    }
+
+    @Test
+    void sendOtp() {
+        mailService.send("otp","aliyeganefard81@gmail.com");
     }
 }

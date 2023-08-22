@@ -2,7 +2,6 @@ package ir.larxury.auth.service.service.impl;
 
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.common.dto.authentication.AuthenticationResponse;
-import ir.larxury.auth.service.common.dto.authentication.SignInDto;
 import ir.larxury.auth.service.database.model.User;
 import ir.larxury.auth.service.config.jwt.JwtService;
 import ir.larxury.auth.service.database.model.enums.AuthenticationOperationType;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import static ir.larxury.common.utils.service.JWTVerificationService.CLAIM_ROLES;
@@ -98,8 +96,25 @@ public class AuthServiceImpl implements AuthService {
     public String sendOtp(String phoneNumber) {
         var user = userService.findByPhoneNumber(phoneNumber);
         String otp = otpService.sendOtp(user);
-        messageDispatcherService.sendVerify(otp, user.getEmail());
+        sendOtpAsync(otp, user.getEmail());
         return otp;
+    }
+
+    @Async("sendOtpAsync")
+    protected void sendOtpAsync(String otp, String email) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                messageDispatcherService.sendVerify(otp, email);
+            } catch (Exception ex) {
+                log.error(ErrorCode.AUTH_TROUBLE_TO_SEND_OTP.getTechnicalMessage());
+                throw new AuthException(ErrorCode.AUTH_TROUBLE_TO_SEND_OTP, ex);
+            }
+        }).whenComplete((t, u) -> {
+            if (u != null) {
+                log.error(ErrorCode.AUTH_INTERNAL_ERROR_IN_SENDING_OTP.getTechnicalMessage() + " with this message {}", u.getMessage());
+                throw new AuthException(ErrorCode.AUTH_INTERNAL_ERROR_IN_SENDING_OTP);
+            }
+        });
     }
 
     @Override
