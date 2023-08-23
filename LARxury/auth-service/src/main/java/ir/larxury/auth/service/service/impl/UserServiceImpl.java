@@ -46,6 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error(ErrorCode.AUTH_USER_NOT_FOUND_BY_EMAIL.getTechnicalMessage() + " email is {}", email);
+            return new AuthException(ErrorCode.AUTH_USER_NOT_FOUND_BY_EMAIL);
+        });
+    }
+
+    @Override
     public UserIdProjection findUserIdByUsername(String username) {
         var userIdProjection = userRepository.findUserIdByUsername(username);
         if (userIdProjection.isEmpty()) {

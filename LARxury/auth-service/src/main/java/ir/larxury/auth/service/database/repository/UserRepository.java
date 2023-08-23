@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByUsername(String username);
 
     Optional<User> findByPhoneNumber(String phoneNumber);
+    Optional<User> findByEmail(String email);
 
     @Query("SELECT NEW ir.larxury.auth.service.database.repository.projection.UserIdProjection(user.id) FROM User user WHERE user.username = :username")
     List<UserIdProjection> findUserIdByUsername(@Param(value = "username") String username);

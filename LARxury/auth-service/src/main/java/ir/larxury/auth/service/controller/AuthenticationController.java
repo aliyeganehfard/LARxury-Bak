@@ -1,6 +1,5 @@
 package ir.larxury.auth.service.controller;
 
-import ir.larxury.auth.service.common.dto.authentication.OtpRes;
 import ir.larxury.auth.service.common.dto.authentication.SignUpDto;
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.database.model.User;
@@ -42,9 +41,16 @@ public class AuthenticationController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    @PostMapping("otp/send")
-    public ResponseEntity<GeneralResponse> sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
-        authService.sendOtp(phoneNumber);
+    @PostMapping("otp/email/send")
+    public ResponseEntity<GeneralResponse> sendEmailOtp(@RequestParam("email") String email) {
+        authService.sendEmailOtp(email);
+        var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PostMapping("otp/sms/send")
+    public ResponseEntity<GeneralResponse> sendSMSOtp(@RequestParam("phoneNumber") String phoneNumber) {
+        authService.sendSMSOtp(phoneNumber);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

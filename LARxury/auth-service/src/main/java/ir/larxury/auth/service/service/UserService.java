@@ -11,6 +11,8 @@ public interface UserService {
 
     User findByPhoneNumber(String phoneNumber);
 
+    User findByEmail(String email);
+
     UserIdProjection findUserIdByUsername(String username);
 
     void setShopAdminRole(String id);

@@ -12,7 +12,12 @@ import org.springframework.web.service.annotation.PostExchange;
 public interface MessageDispatcherHttpService {
 
     @PostExchange("v1/email/send/verify")
-    ResponseEntity<GeneralResponse> sendVerify(@RequestParam(name = "code") String code,
-                                               @RequestParam(name = "phoneNumber") String phoneNumber,
-                                               @RequestHeader("Authorization") String token);
+    ResponseEntity<GeneralResponse> sendEmailVerify(@RequestParam(name = "code") String code,
+                                                    @RequestParam(name = "email") String email,
+                                                    @RequestHeader("Authorization") String token);
+
+    @PostExchange("v1/sms/send/verify")
+    ResponseEntity<GeneralResponse> sendSMSVerify(@RequestParam(name = "code") String code,
+                                                  @RequestParam(name = "phoneNumber") String phoneNumber,
+                                                  @RequestHeader("Authorization") String token);
 }

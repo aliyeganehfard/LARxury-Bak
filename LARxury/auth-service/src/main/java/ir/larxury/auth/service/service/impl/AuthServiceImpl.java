@@ -93,17 +93,41 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void sendOtp(String phoneNumber) {
-        var user = userService.findByPhoneNumber(phoneNumber);
+    public void sendEmailOtp(String email) {
+        var user = userService.findByEmail(email);
         String otp = otpService.sendOtp(user);
-        sendOtpAsync(otp, user.getEmail());
+        sendEmailOtpAsync(otp, user.getEmail());
     }
 
-    @Async("sendOtpAsync")
-    protected void sendOtpAsync(String otp, String email) {
+    @Override
+    public void sendSMSOtp(String phoneNumber) {
+        var user = userService.findByPhoneNumber(phoneNumber);
+        String otp = otpService.sendOtp(user);
+        sendSMSOtpAsync(otp, user.getPhoneNumber());
+    }
+
+    @Async("sendEmailOtpAsync")
+    protected void sendEmailOtpAsync(String otp, String email) {
         CompletableFuture.runAsync(() -> {
             try {
-                messageDispatcherService.sendVerify(otp, email);
+                messageDispatcherService.sendEmailVerify(otp, email);
+            } catch (Exception ex) {
+                log.error(ErrorCode.AUTH_TROUBLE_TO_SEND_OTP.getTechnicalMessage());
+                ex.printStackTrace();
+            }
+        }).whenComplete((t, u) -> {
+            if (u != null) {
+                log.error(ErrorCode.AUTH_INTERNAL_ERROR_IN_SENDING_OTP.getTechnicalMessage());
+                u.printStackTrace();
+            }
+        });
+    }
+
+    @Async("sendEmailOtpAsync")
+    protected void sendSMSOtpAsync(String otp, String phoneNumber) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                messageDispatcherService.sendSMSVerify(otp, phoneNumber);
             } catch (Exception ex) {
                 log.error(ErrorCode.AUTH_TROUBLE_TO_SEND_OTP.getTechnicalMessage());
                 ex.printStackTrace();

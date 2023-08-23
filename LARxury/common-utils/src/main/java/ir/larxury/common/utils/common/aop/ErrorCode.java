@@ -21,23 +21,30 @@ public enum ErrorCode {
     REFRESH_TOKEN_IS_MISSING(24,"refresh token is missing","توکن بازیابی پیدا نشد"),
     AUTH_USER_NOT_FOUND(30,"user not found!","کاربر مورد نظر پیدا نشد"),
     AUTH_USER_NOT_FOUND_BY_PHONE_NUMBER(31,"user with this phone number was not found!","کاربر با این شماره تماس پیدا نشد"),
-    AUTH_PASSWORD_CONFIRMATION_MISMATCH(32,"password and verification password do not match!","رمز عبور و رمز عبور تأیید مطابقت ندارند"),
-    AUTH_INCORRECT_PASSWORD(33,"password is incorrect!","رمز عبور نادرست است"),
-    AUTH_OTP_MISMATCH(34,"entered OTP do not match!","عدم مطابقت کد تایید"),
-    AUTH_OTP_EXPIRED(35,"OTP has expired earlier!","کد تایید زودتر منقضی شده است"),
-    AUTH_OTP_IS_ALREADY_USED(36,"OTP is already used!","قبلا از کد تایید استفاده شده است"),
-    AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER(37,"OTP with this phone number was not found!","هیچ کد تاییدی با این شماره تماس پیدا نشد"),
+    AUTH_USER_NOT_FOUND_BY_EMAIL(32,"user with this email was not found!","کاربر با این ایمیل پیدا نشد"),
+    AUTH_PASSWORD_CONFIRMATION_MISMATCH(33,"password and verification password do not match!","رمز عبور و رمز عبور تأیید مطابقت ندارند"),
+    AUTH_INCORRECT_PASSWORD(34,"password is incorrect!","رمز عبور نادرست است"),
+    AUTH_OTP_MISMATCH(35,"entered OTP do not match!","عدم مطابقت کد تایید"),
+    AUTH_OTP_EXPIRED(36,"OTP has expired earlier!","کد تایید زودتر منقضی شده است"),
+    AUTH_OTP_IS_ALREADY_USED(37,"OTP is already used!","قبلا از کد تایید استفاده شده است"),
+    AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER(38,"OTP with this phone number was not found!","هیچ کد تاییدی با این شماره تماس پیدا نشد"),
     AUTH_ROLE_NOT_FOUND(40,"role not found!","نقش مورد نظر پیدا نشد"),
     AUTH_ROLE_ACCESS_DENIED_TO_CHANGE(41,"you can only change the users role!","شما تنها می تواند نقش کاربر ها را تغییر دهید"),
     AUTH_INTERNAL_ERROR_IN_SENDING_OTP(50,"there was a internal error in sending the verification code!","خطای درونی در ارسال کد تایید پیش امده"),
     AUTH_TROUBLE_TO_SEND_OTP(51,"there was a problem sending the verification code!","مشکلی در ارسال کد تایید پیش امده"),
+
+
     CORE_SERVICE_CONNECTION_ERROR(1200,"trouble to send http request!","مشکلی در برقراری ارتباط با سرویس های دیگر رخ داده"),
     CORE_SERVICE_UNSUCCESSFUL_REQUEST(1201,"request is unsuccessful!","درخواست ناموفق بود"),
     CORE_SERVICE_TROUBLE_TO_PARS_DATA(1202,"trouble to parse incoming data from other service!","مشکل در تجزیه داده های دریافتی از سرویس های دیگر"),
     CORE_SERVICE_DUPLICATE_SHOP_NAME(1203,"shop with this name already exists!","فروشگاهی با این نام در حال حاضر وجود دارد"),
     CORE_SERVICE_SHOP_NOT_FOUND(1204,"shop not found!","فروشگاهی با این نام پیدا نشد"),
     CORE_SERVICE_SHOP_EARLIER_APPROVED(1205,"shop earlier approved!","فروشگاه از قبل تایید شده است"),
-    CORE_SERVICE_SHOP_TROUBLE_TO_REJECT(1206,"just shop with awaiting confirmation status can reject!","تنها فروشگاه هایی با وضعیت 'در انتظار تایید' امکان رد/نپدیرفته شدن دارند");
+    CORE_SERVICE_SHOP_TROUBLE_TO_REJECT(1206,"just shop with awaiting confirmation status can reject!","تنها فروشگاه هایی با وضعیت 'در انتظار تایید' امکان رد/نپدیرفته شدن دارند"),
+
+
+    DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY(1500,"trouble to send notification in instant delivery!","خظایی در ارسال اعلان لحظه ای رخ داده است"),
+    DISPATCHER_TROUBLE_IN_SEND_OTP(1501,"trouble to send otp!","مشکلی در ارسال کد تایید رخ داده است");
 
     private final Integer code;
     private final String technicalMessage;
