@@ -2,7 +2,7 @@ package ir.larxury.message.dispatcher.service;
 
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
-import ir.larxury.message.dispatcher.aop.exception.DispatcherException;
+import ir.larxury.message.dispatcher.common.aop.exception.DispatcherException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

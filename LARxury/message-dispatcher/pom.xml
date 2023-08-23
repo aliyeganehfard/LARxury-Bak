@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>message-dispatcher</artifactId>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<packaging>war</packaging>
 	<name>message-dispatcher</name>
 
@@ -34,6 +34,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+		<!-- Spring webflux-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<!-- Locally -->

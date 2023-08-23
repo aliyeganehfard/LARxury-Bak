@@ -1,4 +1,4 @@
-package ir.larxury.message.dispatcher.aop.exception;
+package ir.larxury.message.dispatcher.common.aop.exception;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import lombok.Getter;

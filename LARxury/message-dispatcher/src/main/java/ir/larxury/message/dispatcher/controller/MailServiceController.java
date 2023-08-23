@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/email/")
-public class OTPSenderController {
+public class MailServiceController {
 
     @Autowired
     @Qualifier("mailService")
-    private Notifier otpSender;
+    private Notifier notifier;
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("send/verify")
     public ResponseEntity<GeneralResponse> sendVerify(@RequestParam(name = "code") String code,
-                                                      @RequestParam(name = "phoneNumber") String phoneNumber) {
-        otpSender.sendOtp(code, phoneNumber);
+                                                      @RequestParam(name = "email") String email) {
+        notifier.sendOtp(code, email);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
