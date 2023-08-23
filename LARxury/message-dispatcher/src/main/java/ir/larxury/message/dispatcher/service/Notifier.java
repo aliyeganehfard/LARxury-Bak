@@ -6,4 +6,5 @@ public interface Notifier {
 
     void InstantDelivery(String subject, String message, List<String> receiver);
 
+    void sendOtp(String code, String receiver);
 }

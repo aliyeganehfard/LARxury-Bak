@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @Qualifier("mailService")
 @PropertySource(value = "classpath:mail-service.properties")
-public class MailService implements Notifier, OTPSender {
+public class MailService implements Notifier {
 
     @Autowired
     private JavaMailSender mailSender;
@@ -36,9 +36,9 @@ public class MailService implements Notifier, OTPSender {
             emailMessage.setText(message);
             mailSender.send(emailMessage);
             log.info("sending instant delivery with email with subject {} was successful", subject);
-        }catch (Exception ex){
-            log.error(ErrorCode.DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY+ " with subject {}", subject);
-            throw new DispatcherException(ErrorCode.DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY,ex);
+        } catch (Exception ex) {
+            log.error(ErrorCode.DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY + " with subject {}", subject);
+            throw new DispatcherException(ErrorCode.DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY, ex);
         }
     }
 
@@ -48,12 +48,13 @@ public class MailService implements Notifier, OTPSender {
             var emailMessage = new SimpleMailMessage();
             emailMessage.setFrom(senderMail);
             emailMessage.setTo(receiver);
-            emailMessage.setText(code);
+            emailMessage.setSubject("LARxury");
+            emailMessage.setText("verification code is : " + code);
             mailSender.send(emailMessage);
             log.info("sending otp for receiver {} was successful", receiver);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error(ErrorCode.DISPATCHER_TROUBLE_IN_SEND_OTP + " for receiver {} ", receiver);
-            throw new DispatcherException(ErrorCode.DISPATCHER_TROUBLE_IN_SEND_OTP,ex);
+            throw new DispatcherException(ErrorCode.DISPATCHER_TROUBLE_IN_SEND_OTP, ex);
         }
     }
 }
