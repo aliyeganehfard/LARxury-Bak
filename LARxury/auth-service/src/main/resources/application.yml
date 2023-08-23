@@ -7,6 +7,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+  main:
+    allow-circular-references: true
 #logging:
 #  file:
 #    name: F:/LARxury Start-Up/Back-End/LARxury/auth-server/src/main/resources/logs/auth.log

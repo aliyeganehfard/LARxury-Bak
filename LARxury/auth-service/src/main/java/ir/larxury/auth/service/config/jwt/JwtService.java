@@ -48,7 +48,7 @@ public class JwtService {
             publicKey = jwtVerificationService.getPublicKey();
         } catch (Exception e) {
             log.error(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY.getTechnicalMessage());
-            throw new AuthException(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY);
+            throw new AuthException(ErrorCode.RSA_TROUBLE_READ_PRIVATE_KEY, e);
         }
     }
 

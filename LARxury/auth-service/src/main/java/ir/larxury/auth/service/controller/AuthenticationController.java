@@ -44,10 +44,8 @@ public class AuthenticationController {
 
     @PostMapping("otp/send")
     public ResponseEntity<GeneralResponse> sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
-        var otpRes = OtpRes.builder()
-                .otpCode(authService.sendOtp(phoneNumber))
-                .build();
-        var res = GeneralResponse.successfulResponse(otpRes, ErrorCode.SUCCESSFUL);
+        authService.sendOtp(phoneNumber);
+        var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -68,7 +66,7 @@ public class AuthenticationController {
         }
         var token = authHeader.substring("Bearer ".length());
         var jwt = authService.refreshToken(token);
-        var res = GeneralResponse.successfulResponse(jwt,ErrorCode.SUCCESSFUL);
+        var res = GeneralResponse.successfulResponse(jwt, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

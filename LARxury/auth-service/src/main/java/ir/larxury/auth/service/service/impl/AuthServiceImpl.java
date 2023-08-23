@@ -93,11 +93,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String sendOtp(String phoneNumber) {
+    public void sendOtp(String phoneNumber) {
         var user = userService.findByPhoneNumber(phoneNumber);
         String otp = otpService.sendOtp(user);
         sendOtpAsync(otp, user.getEmail());
-        return otp;
     }
 
     @Async("sendOtpAsync")
@@ -107,12 +106,12 @@ public class AuthServiceImpl implements AuthService {
                 messageDispatcherService.sendVerify(otp, email);
             } catch (Exception ex) {
                 log.error(ErrorCode.AUTH_TROUBLE_TO_SEND_OTP.getTechnicalMessage());
-                throw new AuthException(ErrorCode.AUTH_TROUBLE_TO_SEND_OTP, ex);
+                ex.printStackTrace();
             }
         }).whenComplete((t, u) -> {
             if (u != null) {
-                log.error(ErrorCode.AUTH_INTERNAL_ERROR_IN_SENDING_OTP.getTechnicalMessage() + " with this message {}", u.getMessage());
-                throw new AuthException(ErrorCode.AUTH_INTERNAL_ERROR_IN_SENDING_OTP);
+                log.error(ErrorCode.AUTH_INTERNAL_ERROR_IN_SENDING_OTP.getTechnicalMessage());
+                u.printStackTrace();
             }
         });
     }
@@ -134,5 +133,10 @@ public class AuthServiceImpl implements AuthService {
         var token = jwtService.getToken(payload, user);
         authLogService.successAttempt(user, operationType);
         return token;
+    }
+
+    public AuthenticationResponse pureGetToken(){
+        var user = userService.findByUsername("admin");
+        return getAuthenticationResponse(user,AuthenticationOperationType.ACCESS_TOKEN);
     }
 }

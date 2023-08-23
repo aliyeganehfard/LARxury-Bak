@@ -12,7 +12,9 @@ public interface AuthService {
 
     AuthenticationResponse signInWithOtp(String phoneNumber, String otpCode);
 
-    String sendOtp(String phoneNumber);
+    void sendOtp(String phoneNumber);
 
     AuthenticationResponse refreshToken(String token);
+
+    AuthenticationResponse pureGetToken();
 }
