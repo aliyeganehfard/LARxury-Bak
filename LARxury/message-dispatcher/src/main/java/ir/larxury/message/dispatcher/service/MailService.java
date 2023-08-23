@@ -1,6 +1,9 @@
 package ir.larxury.message.dispatcher.service;
 
 
+import ir.larxury.common.utils.common.aop.ErrorCode;
+import ir.larxury.message.dispatcher.aop.exception.DispatcherException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Qualifier("mailService")
 @PropertySource(value = "classpath:mail-service.properties")
@@ -24,20 +28,32 @@ public class MailService implements Notifier, OTPSender {
 
     @Override
     public void InstantDelivery(String subject, String message, List<String> receiver) {
-        var emailMessage = new SimpleMailMessage();
-        emailMessage.setFrom(senderMail);
-        emailMessage.setTo(receiver.toArray(new String[0]));
-        emailMessage.setSubject(subject);
-        emailMessage.setText(message);
-        mailSender.send(emailMessage);
+        try {
+            var emailMessage = new SimpleMailMessage();
+            emailMessage.setFrom(senderMail);
+            emailMessage.setTo(receiver.toArray(new String[0]));
+            emailMessage.setSubject(subject);
+            emailMessage.setText(message);
+            mailSender.send(emailMessage);
+            log.info("sending instant delivery with email with subject {} was successful", subject);
+        }catch (Exception ex){
+            log.error(ErrorCode.DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY+ " with subject {}", subject);
+            throw new DispatcherException(ErrorCode.DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY,ex);
+        }
     }
 
     @Override
-    public void send(String code, String receiver) {
-        var emailMessage = new SimpleMailMessage();
-        emailMessage.setFrom(senderMail);
-        emailMessage.setTo(receiver);
-        emailMessage.setText(code);
-        mailSender.send(emailMessage);
+    public void sendOtp(String code, String receiver) {
+        try {
+            var emailMessage = new SimpleMailMessage();
+            emailMessage.setFrom(senderMail);
+            emailMessage.setTo(receiver);
+            emailMessage.setText(code);
+            mailSender.send(emailMessage);
+            log.info("sending otp for receiver {} was successful", receiver);
+        }catch (Exception ex){
+            log.error(ErrorCode.DISPATCHER_TROUBLE_IN_SEND_OTP + " for receiver {} ", receiver);
+            throw new DispatcherException(ErrorCode.DISPATCHER_TROUBLE_IN_SEND_OTP,ex);
+        }
     }
 }

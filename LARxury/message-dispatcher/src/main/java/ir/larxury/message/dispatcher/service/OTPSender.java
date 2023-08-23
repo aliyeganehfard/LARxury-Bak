@@ -2,5 +2,5 @@ package ir.larxury.message.dispatcher.service;
 
 public interface OTPSender {
 
-    void send(String code, String receiver);
+    void sendOtp(String code, String receiver);
 }

@@ -21,6 +21,6 @@ class MailServiceTest {
 
     @Test
     void sendOtp() {
-        mailService.send("otp","aliyeganefard81@gmail.com");
+        mailService.sendOtp("otp","aliyeganefard81@gmail.com");
     }
 }
