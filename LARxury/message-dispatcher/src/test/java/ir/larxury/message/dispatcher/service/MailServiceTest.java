@@ -14,9 +14,7 @@ class MailServiceTest {
 
     @Test
     void instantDelivery() {
-        mailService.InstantDelivery("LARxury","welcome to LARxury ALI",
-                List.of("aliyeganefard81@gmail.com","aliyegane1381fard@gmail.com",
-                        "ali.yegane1753@gmail.com"));
+        mailService.InstantDelivery("LARxury","welcome to LARxury ALI", "aliyeganefard81@gmail.com");
     }
 
     @Test

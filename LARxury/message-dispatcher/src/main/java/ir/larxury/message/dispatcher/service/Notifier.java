@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Notifier {
 
-    void InstantDelivery(String subject, String message, List<String> receiver);
+    void InstantDelivery(String subject, String message,String  receiver);
 
     void sendOtp(String code, String receiver);
 }

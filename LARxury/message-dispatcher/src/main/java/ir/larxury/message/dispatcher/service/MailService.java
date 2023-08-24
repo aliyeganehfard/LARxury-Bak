@@ -27,11 +27,11 @@ public class MailService implements Notifier {
     private String senderMail;
 
     @Override
-    public void InstantDelivery(String subject, String message, List<String> receiver) {
+    public void InstantDelivery(String subject, String message, String receiver) {
         try {
             var emailMessage = new SimpleMailMessage();
             emailMessage.setFrom(senderMail);
-            emailMessage.setTo(receiver.toArray(new String[0]));
+            emailMessage.setTo(receiver);
             emailMessage.setSubject(subject);
             emailMessage.setText(message);
             mailSender.send(emailMessage);

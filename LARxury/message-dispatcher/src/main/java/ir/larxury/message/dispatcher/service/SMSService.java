@@ -31,7 +31,7 @@ public class SMSService implements Notifier {
     private String templateId;
 
     @Override
-    public void InstantDelivery(String subject, String message, List<String> receiver) {
+    public void InstantDelivery(String subject, String message, String receiver) {
         //todo
     }
 
