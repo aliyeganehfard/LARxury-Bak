@@ -69,6 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             var res = GeneralResponse.unsuccessfulResponse(ErrorCode.INTERNAL_SERVER_ERROR);
             setResponse(response, res);
+            e.printStackTrace();
         }
     }
 

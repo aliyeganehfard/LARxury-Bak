@@ -30,8 +30,8 @@ public enum ErrorCode {
     AUTH_OTP_NOT_FOUND_BY_PHONE_NUMBER(38,"OTP with this phone number was not found!","هیچ کد تاییدی با این شماره تماس پیدا نشد"),
     AUTH_ROLE_NOT_FOUND(40,"role not found!","نقش مورد نظر پیدا نشد"),
     AUTH_ROLE_ACCESS_DENIED_TO_CHANGE(41,"you can only change the users role!","شما تنها می تواند نقش کاربر ها را تغییر دهید"),
-    AUTH_INTERNAL_ERROR_IN_SENDING_OTP(50,"there was a internal error in sending the verification code!","خطای درونی در ارسال کد تایید پیش امده"),
-    AUTH_TROUBLE_TO_SEND_OTP(51,"there was a problem sending the verification code!","مشکلی در ارسال کد تایید پیش امده"),
+    AUTH_INTERNAL_ERROR_IN_SENDING_OTP(50,"there is a internal error in sending the verification code!","خطای درونی در ارسال کد تایید پیش امده"),
+    AUTH_TROUBLE_TO_SEND_OTP(51,"there is a problem sending the verification code!","مشکلی در ارسال کد تایید پیش امده"),
 
 
     CORE_SERVICE_CONNECTION_ERROR(1200,"trouble to send http request!","مشکلی در برقراری ارتباط با سرویس های دیگر رخ داده"),
@@ -41,6 +41,7 @@ public enum ErrorCode {
     CORE_SERVICE_SHOP_NOT_FOUND(1204,"shop not found!","فروشگاهی با این نام پیدا نشد"),
     CORE_SERVICE_SHOP_EARLIER_APPROVED(1205,"shop earlier approved!","فروشگاه از قبل تایید شده است"),
     CORE_SERVICE_SHOP_TROUBLE_TO_REJECT(1206,"just shop with awaiting confirmation status can reject!","تنها فروشگاه هایی با وضعیت 'در انتظار تایید' امکان رد/نپدیرفته شدن دارند"),
+    CORE_SERVICE_TROUBLE_TO_SEND_INSTANT_DELIVERY(1207,"there is a problem sending the instant delivery message to dispatcher service code!","مشکلی در ارسال پیام به وجود آمده"),
 
 
     DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY(1500,"trouble to send notification in instant delivery!","خظایی در ارسال اعلان لحظه ای رخ داده است"),

@@ -29,7 +29,7 @@ public class MailServiceController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("send/instantDelivery")
     public ResponseEntity<GeneralResponse> instantDelivery(@RequestBody @Valid InstantDeliveryReq req) {
         notifier.InstantDelivery(req.getSubject(), req.getMessage(), req.getReceiver());

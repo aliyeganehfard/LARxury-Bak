@@ -4,162 +4,276 @@
 		"name": "LARxury",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20423031",
-		"_collection_link": "https://solar-astronaut-748990.postman.co/workspace/online-shop~d2dd732a-4742-4171-803e-892333a5b083/collection/20423031-ce6b19a9-be08-43b5-8467-b74d79baf9c1?source=collection_link"
+		"_collection_link": "https://solar-astronaut-748990.postman.co/workspace/online-shop~d2dd732a-4742-4171-803e-892333a5b083/collection/20423031-ce6b19a9-be08-43b5-8467-b74d79baf9c1?action=share&source=collection_link&creator=20423031"
 	},
 	"item": [
 		{
-			"name": "auth_server",
+			"name": "auth-service",
 			"item": [
 				{
-					"name": "login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"user\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/signIn",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"signIn"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "sing up",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"user\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/signIn",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"signIn"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "refresh token",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MTA3NzQ0M30.1sYrN84C9R6tM1tS0CjHF9ySea_QB5iFVIGd3woe_-qKUHeI91NTGfmFTM5ufen8Z5d7TNlGhFOyap7r42Xk2g",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/token/refresh",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"token",
-								"refresh"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "send otp",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "phoneNumber",
-									"value": "09166761607",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/otp/send",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"otp",
-								"send"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "verify otp",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/otp/verify?phoneNumber=09166761607&otpCode=129917",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"otp",
-								"verify"
-							],
-							"query": [
-								{
-									"key": "phoneNumber",
-									"value": "09166761607"
+					"name": "authentication",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "otpCode",
-									"value": "129917"
+								"url": {
+									"raw": "http://localhost:8080/auth/signIn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"signIn"
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "sing up",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/auth/signIn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"signIn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MTA3NzQ0M30.1sYrN84C9R6tM1tS0CjHF9ySea_QB5iFVIGd3woe_-qKUHeI91NTGfmFTM5ufen8Z5d7TNlGhFOyap7r42Xk2g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/auth/token/refresh",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"token",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send email otp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "aliyeganefard81@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/auth/otp/email/send",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"otp",
+										"email",
+										"send"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send sms otp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "aliyeganefard81@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/auth/otp/email/send",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"otp",
+										"email",
+										"send"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify otp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/auth/otp/verify?phoneNumber=09166761607&otpCode=129917",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"otp",
+										"verify"
+									],
+									"query": [
+										{
+											"key": "phoneNumber",
+											"value": "09166761607"
+										},
+										{
+											"key": "otpCode",
+											"value": "129917"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "findUserIdByUsername",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MjExNjc5Nywicm9sZXMiOlsiUk9MRV9BRE1JTiJdfQ.sH1bqkYFkuCHaIrhpahEBrDaOitJ5wb_sR8xjsGJ-wa-mfl_L_t7ruSf_gkRRznMiFe_AKzvUTfTk4upcxgzB8nOLLUc8udOw3x8AVZW-48NGrjLVMXkdnjj9uQjxbjGV0ZCH5X7S-Gf7MX3oPh8DmLkreLOAIz0O7iZcpBgZRwd61oVTIeOjdsPycWqGdAoa3aHaEAsaDhLGfG4-EXx2c1UOXbGRv9n9a0IcUqTsMNNZf6I45iaQcdV4yM2pNg58jJutDydepZk9E-3gPHcOWRtU0FI5NR1LY6eAo2V4iBMBoptbsGeS7DatFqUTu3buCE4bHfyaiF57Zmi_X04Lg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/v1/user/find/userId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"user",
+										"find",
+										"userId"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add shop admin role",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwiZXhwIjoxNjkyNDY1MzY5LCJyb2xlcyI6WyJST0xFX01BTkFHRVIiXSwiVVVJRCI6WyI5YTEyNGMxNy02ZThiLTQyNDctOWE4OC0wZTJhNWNhYTViZTIiXX0.rm7anJzvEow2x3Yp24vUHWPRoMYcqS-w9snWmKMLjJQ3tfs6pO391t8aZ5m0el8tHchRMwfNAFTT-ifLTxdpkS8P2Ze8BkDolYsPafbHnfyj8pUZFNrwzM_9lVmplD7_BwzARdl3fTN3yBt3B71P7jgOQs7LB3cCrkp60YZj4yYyi-1DOxNgUfPOWkoiOn_1N80xvf4iKjRO8xeka-VCpwd638RWy6QIsAaj6fO5gHvKVXD7x_nfOZ7imNcsrlQFR0a4nHuEctlb-vhKi52yfAiac_XxYwXrPtXlPAuxE3HC9awueoOa9FI6aYP2MVGNfYRYia5WUUzfDX_zzxwCKg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/v1/user/role/add/shopAdmin?userId=7754bcd7-698c-49c1-8648-a2ead564cb44",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"user",
+										"role",
+										"add",
+										"shopAdmin"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "7754bcd7-698c-49c1-8648-a2ead564cb44"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "admin",
@@ -169,7 +283,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjkxMDc3NTM0LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.SkPaPn2QksKWm1Qo9slvPcOr3gtqxfC6b6XeQIhYxW6oF5QqixuehBbPwUTUYxWNDlfwom8peBHaw6A-pbg2Aw",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwiZXhwIjoxNjkyMzA5MzQ3LCJyb2xlcyI6WyJST0xFX01BTkFHRVIiXX0.ZolinZvXTPA1x4z_2nA8WaiaMztcYYGv2xTr-geW1E5XHfNLgG4pYyJOIGTpKOwMdZDcSjJCRJmzVQWZ4TvzXZD1gynrpu4YzyzDMkGXe0CsU6ZHX1nxM6f8S8ibIJJeoO4n7tQnMZDNBseapwid2Ibbpd-6SKBSTrNJQhc8srfcOFkytDajgvNJMRPFKILlWhQB70t7fawE6v-Z4QrUSC0Palq5NVVUy1G4sMdGtzqhWiooc9ZA36ANe0-jU3AjufMu1w2YIsOztX6AqL6Nc4jWweG7s7oevlB7tJcLH8rjexGBRByeRYzrPzHzgi87spbLCY_g5K2XRKLOtusu2Q",
 									"type": "string"
 								}
 							]
@@ -192,6 +306,96 @@
 					"response": []
 				},
 				{
+					"name": "manager",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwiZXhwIjoxNjkyMzA5MzQ3LCJyb2xlcyI6WyJST0xFX01BTkFHRVIiXX0.ZolinZvXTPA1x4z_2nA8WaiaMztcYYGv2xTr-geW1E5XHfNLgG4pYyJOIGTpKOwMdZDcSjJCRJmzVQWZ4TvzXZD1gynrpu4YzyzDMkGXe0CsU6ZHX1nxM6f8S8ibIJJeoO4n7tQnMZDNBseapwid2Ibbpd-6SKBSTrNJQhc8srfcOFkytDajgvNJMRPFKILlWhQB70t7fawE6v-Z4QrUSC0Palq5NVVUy1G4sMdGtzqhWiooc9ZA36ANe0-jU3AjufMu1w2YIsOztX6AqL6Nc4jWweG7s7oevlB7tJcLH8rjexGBRByeRYzrPzHzgi87spbLCY_g5K2XRKLOtusu2Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/manager",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"manager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shop admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwiZXhwIjoxNjkyMzA5MzQ3LCJyb2xlcyI6WyJST0xFX01BTkFHRVIiXX0.ZolinZvXTPA1x4z_2nA8WaiaMztcYYGv2xTr-geW1E5XHfNLgG4pYyJOIGTpKOwMdZDcSjJCRJmzVQWZ4TvzXZD1gynrpu4YzyzDMkGXe0CsU6ZHX1nxM6f8S8ibIJJeoO4n7tQnMZDNBseapwid2Ibbpd-6SKBSTrNJQhc8srfcOFkytDajgvNJMRPFKILlWhQB70t7fawE6v-Z4QrUSC0Palq5NVVUy1G4sMdGtzqhWiooc9ZA36ANe0-jU3AjufMu1w2YIsOztX6AqL6Nc4jWweG7s7oevlB7tJcLH8rjexGBRByeRYzrPzHzgi87spbLCY_g5K2XRKLOtusu2Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopAdmin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopAdmin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwiZXhwIjoxNjkyMzA5MzQ3LCJyb2xlcyI6WyJST0xFX01BTkFHRVIiXX0.ZolinZvXTPA1x4z_2nA8WaiaMztcYYGv2xTr-geW1E5XHfNLgG4pYyJOIGTpKOwMdZDcSjJCRJmzVQWZ4TvzXZD1gynrpu4YzyzDMkGXe0CsU6ZHX1nxM6f8S8ibIJJeoO4n7tQnMZDNBseapwid2Ibbpd-6SKBSTrNJQhc8srfcOFkytDajgvNJMRPFKILlWhQB70t7fawE6v-Z4QrUSC0Palq5NVVUy1G4sMdGtzqhWiooc9ZA36ANe0-jU3AjufMu1w2YIsOztX6AqL6Nc4jWweG7s7oevlB7tJcLH8rjexGBRByeRYzrPzHzgi87spbLCY_g5K2XRKLOtusu2Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "all user",
 					"request": {
 						"auth": {
@@ -199,7 +403,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjkxMDc3NTM0LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.SkPaPn2QksKWm1Qo9slvPcOr3gtqxfC6b6XeQIhYxW6oF5QqixuehBbPwUTUYxWNDlfwom8peBHaw6A-pbg2Aw",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MjExNjc1Nywicm9sZXMiOlsiUk9MRV9BRE1JTiJdfQ.A2PMDZIWFMX5q5dXSRgwpaz6EXmySp9Ps9jh8pvuluvY2_travgiQAUCe5F7OcML9ztuRhCHLnqJje9RnepbuVJyU7TNQd9ycsw0mCG2NZXs1krukfS1-ZWNddPWLG7pYl1fgCAQToSia0PL1rK4vYWXa7n3RDfoLrpPHKCASzeApY-i9xo4qCxJW2u1tR4gLoqmGP4tr6YGrth0XgUYTo1oqGWOI2YZ1Mmcuu_96wwrS5UwJEY7q8EC7dkhLaKS2DVodqNN9Hs5F7xRRUxucatyV1iG-lBIF2nQJ7ulePqE5XlIypwNMQ_nDY5lTMM0ucK56IAbqk5O6t9-2Nn18g",
 									"type": "string"
 								}
 							]
@@ -240,6 +444,353 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "core-service",
+			"item": [
+				{
+					"name": "shop",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"shop\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8082/v1/shop/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"v1",
+										"shop",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "awaiting confirmation",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MjMwOTgxNywicm9sZXMiOlsiUk9MRV9BRE1JTiJdfQ.ay7Jd39xMfuPWzmymTJswBnMRz-a4H30_x6AK2USCCJzSc8JI_7ueBvcLwCzI7b41RQDQ4qakh1pFFZxLP2H6y-YVb1gpBgwXL-GYWRxI5UxoqIx0pjfuV46ltCd1WLPCP3a5Uh9eChNVYhWa_9hGHdifGPbDFZUbXIPqhiwqvErCmSopnxFNTXkLJRHRLR1yyg6n2NeCvboE9BOYU29tuqchgYUL5_YaC9KYmtoP1XezN3LVBNQxbIZYu-TZv9FM2VOa4ezEsiYnafn-7i0KlV3Xeo3Kh7HpaTUqH2D5aqfY7hpheX5J9IRaw5H18LZ9tRDIfSs__qud-2KQS0iLQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/v1/shop/find/awaiting/confirmation",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"v1",
+										"shop",
+										"find",
+										"awaiting",
+										"confirmation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "approve",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/v1/shop/registration/state/approve",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"v1",
+										"shop",
+										"registration",
+										"state",
+										"approve"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "hello",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/client/hello",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"client",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MTQyODgwNywicm9sZXMiOlsiUk9MRV9BRE1JTiJdfQ.882lMS-MeVc6kpI7bF0ib0p8_zmQRcbPK9dqoJK-6uUo0XJ7p25M_B4PiDrfCz4zmS_UjTnGyaF5IPOlCiorWg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/client/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"client",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MTQyODc2Nywicm9sZXMiOlsiUk9MRV9BRE1JTiJdfQ.YmsX_hKChM4z-OWe6ewDG0jaxRt-CYjgHtX9cUEvnvzMSmf5vBVixpDBQ5fWpkQQW9oCkgqw5S1Ni-90ulwHNQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/client/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"client",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjkxNDI4MTA4LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.MlinlhGh3_OlKm3WvEg1q7gzenLyb5r3xnMwy4cnkxEC99tx24bRo-XmWmytOKrBvGGQ6Z0RH5poGVKfI4aN3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/client/allUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"client",
+								"allUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "message-dispatcher",
+			"item": [
+				{
+					"name": "sms.ir",
+					"item": [
+						{
+							"name": "verify code",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "zgy7RAYO5kOSn9E5nOaQck8R9wQWTf9tIUkT2L2MfLfhSENiaqLntwKqMg76oqVs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobile\": \"9166761607\",\r\n    \"templateId\": 100000,\r\n    \"parameters\": [\r\n      {\r\n        \"name\": \"Code\",\r\n        \"value\": \"123456\"\r\n      }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.sms.ir/v1/send/verify",
+									"protocol": "https",
+									"host": [
+										"api",
+										"sms",
+										"ir"
+									],
+									"path": [
+										"v1",
+										"send",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "email",
+					"item": [
+						{
+							"name": "send otp",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MjgwOTc5Mywicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJVVUlEIjpbIjA1NTBkMGY0LTBhN2QtNGY1My04Y2VkLTFkYWRhMDJlYzM1NSJdfQ.F3ebGPejh0_zCxnQ73wxK0YwAFgt-q2ZeJ-ZFyP1SrMETDU9SXNIG9upik_lEN_7QDvW02oqnuSwUdc2DCi4DMveFK7H-Akfao9fDmRNUOfj1eIq24Lk8FMnKsSkINQ1NwgZ4IpSw2hvBymWe2oERoavzM3NvViVMgXTFzLfNR7NyBqoKqjeNshyHzfom8Dsah9usQrHD-DsyPMrS1UF99Jq2pCmwMBVXSZ2s9o21OUSoyH8NqTLBmAfHyjHx0jL-dp7lm4sHtcIvc9FKtMb298CkaYyAcQP-KkmDWG80BhVMFV6PF_QdebMDgSojC2p_rY41MP6QB7T5X6K7C0yog",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/v1/email/send/verify?code=123456&phoneNumber=aliyeganefard81@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"v1",
+										"email",
+										"send",
+										"verify"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "123456"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "aliyeganefard81@gmail.com"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "sms",
+					"item": [
+						{
+							"name": "send otp",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5MjgwOTc5Mywicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJVVUlEIjpbIjA1NTBkMGY0LTBhN2QtNGY1My04Y2VkLTFkYWRhMDJlYzM1NSJdfQ.F3ebGPejh0_zCxnQ73wxK0YwAFgt-q2ZeJ-ZFyP1SrMETDU9SXNIG9upik_lEN_7QDvW02oqnuSwUdc2DCi4DMveFK7H-Akfao9fDmRNUOfj1eIq24Lk8FMnKsSkINQ1NwgZ4IpSw2hvBymWe2oERoavzM3NvViVMgXTFzLfNR7NyBqoKqjeNshyHzfom8Dsah9usQrHD-DsyPMrS1UF99Jq2pCmwMBVXSZ2s9o21OUSoyH8NqTLBmAfHyjHx0jL-dp7lm4sHtcIvc9FKtMb298CkaYyAcQP-KkmDWG80BhVMFV6PF_QdebMDgSojC2p_rY41MP6QB7T5X6K7C0yog",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/v1/email/send/verify?code=123456&phoneNumber=aliyeganefard81@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"v1",
+										"email",
+										"send",
+										"verify"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "123456"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "aliyeganefard81@gmail.com"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

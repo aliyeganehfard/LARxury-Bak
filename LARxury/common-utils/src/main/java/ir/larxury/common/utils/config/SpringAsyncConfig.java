@@ -1,4 +1,4 @@
-package ir.larxury.auth.service.config;
+package ir.larxury.common.utils.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

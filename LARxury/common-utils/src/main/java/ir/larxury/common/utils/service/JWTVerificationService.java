@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.interfaces.RSAPublicKey;
+import java.util.Date;
 
 @Service
 public class JWTVerificationService {
@@ -63,6 +64,12 @@ public class JWTVerificationService {
         return decodedJWT.getClaim(UUID)
                 .asList(String.class)
                 .get(0);
+    }
+
+    public boolean isJWTExpired(String token) {
+        var decodedJWT = getDecodedJWT(token);
+        Date expiresAt = decodedJWT.getExpiresAt();
+        return expiresAt.before(new Date());
     }
 
     private Algorithm getVerificationAlgorithm() {

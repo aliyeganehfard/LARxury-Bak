@@ -13,11 +13,13 @@ import java.time.Duration;
 @Configuration
 public class MessageDispatcherHttpServiceConf {
 
+    public static final Integer DEFAULT_TIMOUT = 20;
+
     @Bean
     public MessageDispatcherHttpService getMessageDispatcherHttpService() {
         HttpServiceProxyFactory httpServiceProxyFactory =
                 HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient()))
-                        .blockTimeout(Duration.ofSeconds(20))
+                        .blockTimeout(Duration.ofSeconds(DEFAULT_TIMOUT))
                         .build();
         return httpServiceProxyFactory.createClient(MessageDispatcherHttpService.class);
     }
