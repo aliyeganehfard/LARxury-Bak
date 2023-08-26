@@ -1,4 +1,4 @@
-package ir.larxury.core.service.common.dto.auth.req;
+package ir.larxury.core.service.common.dto.authService.req;
 
 import lombok.Data;
 

@@ -6,15 +6,18 @@ import ir.larxury.core.service.common.aop.exception.CoreServiceException;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import ir.larxury.core.service.database.repository.ShopRepository;
-import ir.larxury.core.service.provider.AuthProviderImpl;
-import ir.larxury.core.service.provider.request.AuthProvider;
+import ir.larxury.core.service.service.provider.AsyncEngine;
+import ir.larxury.core.service.service.provider.AuthProvider;
 import ir.larxury.core.service.service.ShopService;
+import ir.larxury.core.service.service.provider.MessageDispatcherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -27,7 +30,10 @@ public class ShopServiceImpl implements ShopService {
     private JWTVerificationService jwtVerificationService;
 
     @Autowired
-    private AuthProviderImpl authProvider;
+    private AuthProvider authProvider;
+
+    @Autowired
+    private AsyncEngine asyncEngine;
 
     @Override
     @Transactional
@@ -42,6 +48,12 @@ public class ShopServiceImpl implements ShopService {
         shop.setUserId(userId);
         shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
         shopRepository.save(shop);
+
+        asyncEngine.sendInstantDeliveryMessage(
+                "LARxury",
+                "اطلاعات فروشگاه شما با موفقیت ثبت شد",
+                "aliyeganefard81@gmail.com");
+
         log.info("save shop with id {}", shop.getId());
     }
 
