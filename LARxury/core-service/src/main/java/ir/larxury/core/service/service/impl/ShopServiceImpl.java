@@ -6,18 +6,15 @@ import ir.larxury.core.service.common.aop.exception.CoreServiceException;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import ir.larxury.core.service.database.repository.ShopRepository;
-import ir.larxury.core.service.service.provider.AsyncEngine;
-import ir.larxury.core.service.service.provider.AuthProvider;
+import ir.larxury.core.service.provider.AsyncEngine;
+import ir.larxury.core.service.provider.AuthServiceProvider;
 import ir.larxury.core.service.service.ShopService;
-import ir.larxury.core.service.service.provider.MessageDispatcherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -30,7 +27,7 @@ public class ShopServiceImpl implements ShopService {
     private JWTVerificationService jwtVerificationService;
 
     @Autowired
-    private AuthProvider authProvider;
+    private AuthServiceProvider authServiceProvider;
 
     @Autowired
     private AsyncEngine asyncEngine;
@@ -49,10 +46,11 @@ public class ShopServiceImpl implements ShopService {
         shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
         shopRepository.save(shop);
 
-        asyncEngine.sendInstantDeliveryMessage(
+        asyncEngine.sendEmailInstantDeliveryMessage(
+                userId,
                 "LARxury",
-                "اطلاعات فروشگاه شما با موفقیت ثبت شد",
-                "aliyeganefard81@gmail.com");
+                "اطلاعات فروشگاه شما با موفقیت ثبت شد"
+        );
 
         log.info("save shop with id {}", shop.getId());
     }
@@ -65,13 +63,20 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void approveShop(Long shopId) {
         var shop = findById(shopId);
-        if (shop.getShopStatus().getIndex() <= ShopStatus.CONFIRM.getIndex()) {
+        if (ShopStatus.CONFIRM.getIndex() <= shop.getShopStatus().getIndex()) {
             log.error(ErrorCode.CORE_SERVICE_SHOP_EARLIER_APPROVED.getTechnicalMessage() + " shop id = {}", shop.getId());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_EARLIER_APPROVED);
         }
-        authProvider.setShopAdminRoleToUser(shop.getUserId());
+        authServiceProvider.setShopAdminRoleToUser(shop.getUserId());
         shop.setShopStatus(ShopStatus.CONFIRM);
         update(shop);
+
+        asyncEngine.sendEmailInstantDeliveryMessage(
+                shop.getUserId(),
+                "LARxury",
+                "فروشگاه شما تایید شد"
+        );
+
         log.info("shop with id = {} confirmed ", shop.getId());
     }
 
@@ -82,8 +87,16 @@ public class ShopServiceImpl implements ShopService {
             log.error(ErrorCode.CORE_SERVICE_SHOP_TROUBLE_TO_REJECT.getTechnicalMessage() + " shop id = {}", shop.getId());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_TROUBLE_TO_REJECT);
         }
+
         shop.setShopStatus(ShopStatus.REJECTION);
         update(shop);
+
+        asyncEngine.sendEmailInstantDeliveryMessage(
+                shop.getUserId(),
+                "LARxury",
+                "فروشگاه شما تایید نشد"
+        );
+
         log.info("shop reject with id {} ", shop.getId());
     }
 
@@ -102,5 +115,9 @@ public class ShopServiceImpl implements ShopService {
     protected void update(Shop shop) {
         log.info("shop update with id = {} ", shop.getId());
         shopRepository.save(shop);
+    }
+
+    private void sendInfoToUser(String subject, String message, String email) {
+
     }
 }

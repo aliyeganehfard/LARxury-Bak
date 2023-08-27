@@ -1,4 +1,4 @@
-package ir.larxury.core.service.service.provider.request;
+package ir.larxury.core.service.provider.request;
 
 import ir.larxury.common.utils.common.dto.GeneralResponse;
 import ir.larxury.core.service.common.dto.messageDispatcher.DispatcherInstantDeliveryReq;
@@ -10,11 +10,11 @@ import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
 @HttpExchange(url = "http://localhost:8088/v1/email/")
-public interface MessageDispatcherHttpService {
+public interface MessageDispatcherHttpProvider {
 
     @PostExchange("send/instantDelivery")
-    ResponseEntity<GeneralResponse> instantDelivery(@RequestBody DispatcherInstantDeliveryReq req,
-                                                    @RequestHeader("Authorization") String token);
+    ResponseEntity<GeneralResponse> emailInstantDelivery(@RequestBody DispatcherInstantDeliveryReq req,
+                                                         @RequestHeader("Authorization") String token);
 
 
 }

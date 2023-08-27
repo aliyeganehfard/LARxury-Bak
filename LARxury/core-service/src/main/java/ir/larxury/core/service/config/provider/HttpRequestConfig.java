@@ -1,8 +1,7 @@
 package ir.larxury.core.service.config.provider;
 
-import ir.larxury.core.service.service.provider.request.AuthHttpService;
-import ir.larxury.core.service.service.provider.request.MessageDispatcherHttpService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import ir.larxury.core.service.provider.request.AuthServiceHttpProvider;
+import ir.larxury.core.service.provider.request.MessageDispatcherHttpProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,21 +16,21 @@ public class HttpRequestConfig {
     public static final Integer DEFAULT_TIMOUT = 20;
 
     @Bean
-    AuthHttpService authProviderConfig(WebClient webClient) {
+    AuthServiceHttpProvider authProviderConfig(WebClient webClient) {
         HttpServiceProxyFactory httpServiceProxyFactory =
                 HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient))
                         .blockTimeout(Duration.ofSeconds(DEFAULT_TIMOUT))
                         .build();
-        return httpServiceProxyFactory.createClient(AuthHttpService.class);
+        return httpServiceProxyFactory.createClient(AuthServiceHttpProvider.class);
     }
 
     @Bean
-    MessageDispatcherHttpService getMessageDispatcherHttpServiceConfig(WebClient webClient) {
+    MessageDispatcherHttpProvider getMessageDispatcherHttpServiceConfig(WebClient webClient) {
         HttpServiceProxyFactory httpServiceProxyFactory =
                 HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient))
                         .blockTimeout(Duration.ofSeconds(DEFAULT_TIMOUT))
                         .build();
-        return httpServiceProxyFactory.createClient(MessageDispatcherHttpService.class);
+        return httpServiceProxyFactory.createClient(MessageDispatcherHttpProvider.class);
     }
 
     @Bean

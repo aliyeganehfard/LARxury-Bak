@@ -1,6 +1,6 @@
 package ir.larxury.core.service.controller;
 
-import ir.larxury.core.service.service.provider.MessageDispatcherService;
+import ir.larxury.core.service.provider.MessageDispatcherProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     @Autowired
-    private MessageDispatcherService messageDispatcherService;
+    private MessageDispatcherProvider messageDispatcherProvider;
 
     @GetMapping("hello")
     public String hello(){
@@ -33,7 +33,7 @@ public class Controller {
 
     @GetMapping("allUsers")
     public String allUsers(){
-        messageDispatcherService.instantDelivery("hello","ali","aliyeganefard@gmail.com");
+        messageDispatcherProvider.instantDelivery("hello","ali","aliyeganefard@gmail.com");
         return "allUsers";
     }
 

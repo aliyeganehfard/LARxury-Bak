@@ -6,16 +6,14 @@ import lombok.Data;
 import lombok.Getter;
 
 @Getter
-public class CoreServiceException extends RuntimeException {
-
-    private ErrorCode errorCode;
+public class CoreServiceException extends GeneralException {
 
     public CoreServiceException(ErrorCode message) {
-        super(message.getTechnicalMessage());
+        super(message);
     }
 
     public CoreServiceException(ErrorCode errorCode, Throwable cause ) {
-        super(errorCode.getTechnicalMessage(), cause);
-        this.errorCode = errorCode;
+        super(errorCode, cause);
     }
 }
+
