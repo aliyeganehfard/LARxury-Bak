@@ -9,7 +9,7 @@ import ir.larxury.auth.service.service.AuthService;
 import ir.larxury.auth.service.service.AuthenticationLogService;
 import ir.larxury.auth.service.service.OtpService;
 import ir.larxury.auth.service.service.UserService;
-import ir.larxury.auth.service.service.provider.MessageDispatcherService;
+import ir.larxury.auth.service.provider.MessageDispatcherService;
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

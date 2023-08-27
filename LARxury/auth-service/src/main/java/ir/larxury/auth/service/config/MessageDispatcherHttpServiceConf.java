@@ -1,7 +1,6 @@
 package ir.larxury.auth.service.config;
 
-import ir.larxury.auth.service.service.provider.request.MessageDispatcherHttpService;
-import lombok.SneakyThrows;
+import ir.larxury.auth.service.provider.request.MessageDispatcherHttpService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;

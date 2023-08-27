@@ -1,4 +1,4 @@
-package ir.larxury.auth.service.service.provider.request;
+package ir.larxury.auth.service.provider.request;
 
 import ir.larxury.common.utils.common.dto.GeneralResponse;
 

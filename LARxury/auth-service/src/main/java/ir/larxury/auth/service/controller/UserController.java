@@ -16,13 +16,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostMapping("find/userId")
-    public ResponseEntity<GeneralResponse> findUserId(@RequestParam(name = "username") String username) {
-        var userId = userService.findUserIdByUsername(username);
-        var res = GeneralResponse.successfulResponse(userId, ErrorCode.SUCCESSFUL);
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
 
     @PreAuthorize("hasAnyRole('MANAGER')")
     @PostMapping("role/add/shopAdmin")
@@ -31,4 +24,21 @@ public class UserController {
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("find/userId")
+    public ResponseEntity<GeneralResponse> findUserId(@RequestParam(name = "username") String username) {
+        var userId = userService.findUserIdByUsername(username);
+        var res = GeneralResponse.successfulResponse(userId, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("find/userInfo")
+    public ResponseEntity<GeneralResponse> findUserInfo(@RequestParam(name = "userId") String userId) {
+        var userInfo = userService.findUserInformationById(userId);
+        var res = GeneralResponse.successfulResponse(userInfo, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
 }

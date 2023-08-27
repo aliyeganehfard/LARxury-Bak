@@ -6,6 +6,7 @@ import ir.larxury.auth.service.database.model.User;
 import ir.larxury.auth.service.database.model.enums.RoleName;
 import ir.larxury.auth.service.database.repository.UserRepository;
 import ir.larxury.auth.service.database.repository.projection.UserIdProjection;
+import ir.larxury.auth.service.database.repository.projection.UserInformationProjection;
 import ir.larxury.auth.service.service.RoleService;
 import ir.larxury.auth.service.service.UserService;
 import ir.larxury.common.utils.common.aop.ErrorCode;
@@ -64,13 +65,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserInformationProjection findUserInformationById(String id) {
+        var userInfo = userRepository.getUserInformationById(UUID.fromString(id));
+        if (userInfo == null) {
+            log.error(ErrorCode.AUTH_USER_NOT_FOUND_BY_EMAIL.getTechnicalMessage() + " id is {}", id);
+            throw new AuthException(ErrorCode.AUTH_USER_NOT_FOUND);
+        }
+        return userInfo;
+    }
+
+    @Override
     public void setShopAdminRole(String id) {
         var user = findById(id);
 
-        var validateRole = user.getRoles().stream()
+        var checkRole = user.getRoles().stream()
                 .anyMatch(role -> !RoleName.ROLE_USER.equals(role.getName()));
-        if (validateRole) {
-            log.error(ErrorCode.AUTH_ROLE_ACCESS_DENIED_TO_CHANGE.getTechnicalMessage() + " this user {} is not not have ROLE_USER" , user.getUsername());
+        if (checkRole) {
+            log.error(ErrorCode.AUTH_ROLE_ACCESS_DENIED_TO_CHANGE.getTechnicalMessage() + " this user {} is not not have ROLE_USER", user.getUsername());
             throw new AuthException(ErrorCode.AUTH_ROLE_ACCESS_DENIED_TO_CHANGE);
         }
 

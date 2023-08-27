@@ -42,6 +42,8 @@ public class BootStrap {
         admin.setPhoneNumber("09166761607");
         admin.getRoles().add(roles.get(0));
         admin.setEmail("aliyeganefard81@gmail.com");
+        admin.setFirstName("admin-firstname");
+        admin.setLastName("admin-lastname");
         userRepository.save(admin);
 
 
@@ -67,6 +69,9 @@ public class BootStrap {
         user.setPassword(userPass);
         user.setPhoneNumber("09166761604");
         user.getRoles().add(roles.get(3));
+        user.setEmail("aliyeganefard81@gmail.com");
+        user.setFirstName("user-firstname");
+        user.setLastName("user-lastname");
         userRepository.save(user);
 //
 //        Role adminRole = new Role();

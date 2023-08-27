@@ -1,8 +1,8 @@
-package ir.larxury.auth.service.service.provider;
+package ir.larxury.auth.service.provider;
 
 import ir.larxury.auth.service.common.aop.exception.AuthException;
 import ir.larxury.auth.service.service.AuthService;
-import ir.larxury.auth.service.service.provider.request.MessageDispatcherHttpService;
+import ir.larxury.auth.service.provider.request.MessageDispatcherHttpService;
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
 import lombok.extern.slf4j.Slf4j;
