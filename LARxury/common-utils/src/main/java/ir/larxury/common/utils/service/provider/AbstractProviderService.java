@@ -35,7 +35,7 @@ public abstract class AbstractProviderService {
 
     protected abstract String login();
 
-    public <T> T validateResponse(GeneralResponse response, Class<T> tClass) {
+    public <T> T validateAndGetResponse(GeneralResponse response, Class<T> tClass) {
         if (Boolean.TRUE.equals(response.getIsSuccess())) {
             if (response.getResultData() != null) {
                 try {
@@ -53,7 +53,7 @@ public abstract class AbstractProviderService {
         }
     }
 
-    public void validateResponse(GeneralResponse response) {
+    public void validateAndGetResponse(GeneralResponse response) {
         if (Boolean.FALSE.equals(response.getIsSuccess())) {
             log.error(ErrorCode.getTechnicalMessageByCode(response.getRsCode()).getTechnicalMessage());
             throw new CommonUtilsException(ErrorCode.getTechnicalMessageByCode(response.getRsCode()));

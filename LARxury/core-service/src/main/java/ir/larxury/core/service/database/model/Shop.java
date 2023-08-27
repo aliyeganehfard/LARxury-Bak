@@ -3,7 +3,10 @@ package ir.larxury.core.service.database.model;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -33,8 +36,22 @@ public class Shop {
     @Column(name = "shop_staus", nullable = false)
     private ShopStatus shopStatus;
 
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "user_id", nullable = false)
     private String userId;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "shop_category",
+            joinColumns = @JoinColumn(name = "shop_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories = new ArrayList<>();
 
 
     @PrePersist

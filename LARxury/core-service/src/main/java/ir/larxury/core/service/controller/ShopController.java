@@ -2,7 +2,7 @@ package ir.larxury.core.service.controller;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
-import ir.larxury.core.service.common.dto.shop.req.ShopReq;
+import ir.larxury.core.service.common.dto.shop.req.ShopRegistrationReq;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.service.ShopService;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class ShopController {
 
     @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("register")
-    public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopReq req,
+    public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopRegistrationReq req,
                                                 @RequestHeader("Authorization") String token) {
         var shop = mapper.map(req, Shop.class);
         shopService.saveNewShop(shop, token);
