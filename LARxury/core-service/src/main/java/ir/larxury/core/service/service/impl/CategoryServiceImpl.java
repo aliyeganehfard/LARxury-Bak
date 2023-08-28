@@ -36,14 +36,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findCategoryByIds(List<Long> categoryIds) {
+    public List<Category> findRootCategoryByIds(List<Long> categoryIds) {
         var categoryIdsAsSet = new HashSet<>(categoryIds);
         if (categoryIds.size() != categoryIdsAsSet.size()) {
             log.error(ErrorCode.CORE_SERVICE_CATEGORY_ID_NOT_UNIQUE.getTechnicalMessage());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_CATEGORY_ID_NOT_UNIQUE);
         }
 
-        List<Category> categories = categoryRepository.findCategoryByIds(categoryIds);
+        List<Category> categories = categoryRepository.findRootCategoryByIds(categoryIds);
         if (categories.size() != categoryIds.size()){
             log.error(ErrorCode.CORE_SERVICE_CATEGORY_BAD_CATEGORY_IDS.getTechnicalMessage());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_CATEGORY_BAD_CATEGORY_IDS);

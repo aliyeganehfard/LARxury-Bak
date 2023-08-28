@@ -2,17 +2,15 @@ package ir.larxury.common.utils.common.aop.exception;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import lombok.Getter;
-@Getter
-public class CommonUtilsException extends RuntimeException {
 
-    private ErrorCode errorCode;
+@Getter
+public class CommonUtilsException extends GeneralException {
 
     public CommonUtilsException(ErrorCode message) {
-        super(message.getTechnicalMessage());
+        super(message);
     }
 
     public CommonUtilsException(ErrorCode errorCode, Throwable cause ) {
-        super(errorCode.getTechnicalMessage(), cause);
-        this.errorCode = errorCode;
+        super(errorCode, cause);
     }
 }

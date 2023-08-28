@@ -33,7 +33,7 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasAnyRole('MANAGER')")
-    @PostMapping("subCategory/save")
+    @PostMapping("sub/save")
     public ResponseEntity<GeneralResponse> saveSubCategory(@RequestBody @Valid SubCategoryReq req){
         var category = mapper.map(req, Category.class);
         categoryService.saveSubCategory(category);

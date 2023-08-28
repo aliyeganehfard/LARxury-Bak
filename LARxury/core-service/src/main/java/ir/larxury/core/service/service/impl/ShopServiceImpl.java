@@ -3,11 +3,13 @@ package ir.larxury.core.service.service.impl;
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.service.JWTVerificationService;
 import ir.larxury.core.service.common.aop.exception.CoreServiceException;
+import ir.larxury.core.service.database.model.Category;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import ir.larxury.core.service.database.repository.ShopRepository;
 import ir.larxury.core.service.provider.AsyncEngine;
 import ir.larxury.core.service.provider.AuthServiceProvider;
+import ir.larxury.core.service.service.CategoryService;
 import ir.larxury.core.service.service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,6 +35,9 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private AsyncEngine asyncEngine;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     @Transactional
     public void saveNewShop(Shop shop, String token) {
@@ -44,6 +50,16 @@ public class ShopServiceImpl implements ShopService {
         var userId = jwtVerificationService.getUuid(token);
         shop.setUserId(userId);
         shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
+
+        var categories =
+                categoryService.findRootCategoryByIds(
+                        shop.getCategories()
+                                .stream()
+                                .map(Category::getId)
+                                .collect(Collectors.toList())
+                );
+
+        shop.setCategories(categories);
         shopRepository.save(shop);
 
         asyncEngine.sendEmailInstantDeliveryMessage(

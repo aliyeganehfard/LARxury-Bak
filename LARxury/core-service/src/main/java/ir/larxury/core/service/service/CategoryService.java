@@ -10,5 +10,5 @@ public interface CategoryService {
 
     void saveSubCategory(Category category);
 
-    List<Category> findCategoryByIds(List<Long> categoryIds);
+    List<Category> findRootCategoryByIds(List<Long> categoryIds);
 }

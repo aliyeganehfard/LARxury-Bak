@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("FROM Category cat WHERE cat.id IN :ids")
-    List<Category> findCategoryByIds(@Param("ids") List<Long> ids);
+    @Query("FROM Category cat WHERE cat.parentCategory IS Null AND cat.id IN :ids")
+    List<Category> findRootCategoryByIds(@Param("ids") List<Long> ids);
 }
