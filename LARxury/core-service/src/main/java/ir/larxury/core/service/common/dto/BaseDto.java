@@ -1,12 +1,14 @@
 package ir.larxury.core.service.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class BaseReqDto implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class BaseDto implements Serializable {
 
     @NotNull(message = "شناسه نمیتواند خالی باشد")
     private Long id;

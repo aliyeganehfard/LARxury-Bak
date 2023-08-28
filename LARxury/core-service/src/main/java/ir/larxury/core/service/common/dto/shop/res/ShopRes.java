@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ShopRes implements Serializable {
 }

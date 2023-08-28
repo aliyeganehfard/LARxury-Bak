@@ -1,6 +1,6 @@
 package ir.larxury.core.service.common.dto.shop.req;
 
-import ir.larxury.core.service.common.dto.BaseReqDto;
+import ir.larxury.core.service.common.dto.BaseDto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -20,5 +20,5 @@ public class ShopRegistrationReq implements Serializable {
     private String about;
 
     @NotEmpty(message = "کتگوری نمیتواند خالی باشد")
-    private List<BaseReqDto> categories;
+    private List<BaseDto> categories;
 }
