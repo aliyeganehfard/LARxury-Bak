@@ -29,8 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void saveSubCategory(Category category, Long parentId) {
-        var parent = findById(parentId);
+    public void saveSubCategory(Category category) {
+        var parent = findById(category.getParentCategory().getId());
         category.setParentCategory(parent);
         saveCategory(category);
     }

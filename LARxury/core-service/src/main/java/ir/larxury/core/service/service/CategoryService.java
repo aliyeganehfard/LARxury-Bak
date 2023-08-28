@@ -8,7 +8,7 @@ public interface CategoryService {
 
     void saveCategory(Category category);
 
-    void saveSubCategory(Category category, Long parentId);
+    void saveSubCategory(Category category);
 
     List<Category> findCategoryByIds(List<Long> categoryIds);
 }
