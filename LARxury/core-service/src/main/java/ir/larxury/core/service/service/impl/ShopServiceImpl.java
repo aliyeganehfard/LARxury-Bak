@@ -133,7 +133,4 @@ public class ShopServiceImpl implements ShopService {
         shopRepository.save(shop);
     }
 
-    private void sendInfoToUser(String subject, String message, String email) {
-
-    }
 }
