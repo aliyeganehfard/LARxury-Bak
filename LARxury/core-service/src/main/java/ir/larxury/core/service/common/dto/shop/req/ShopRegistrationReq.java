@@ -17,7 +17,7 @@ public class ShopRegistrationReq implements Serializable {
     private String address;
 
     @NotEmpty(message = " توضیحات نمیتواند خالی باشد")
-    private String description;
+    private String about;
 
     @NotEmpty(message = "کتگوری نمیتواند خالی باشد")
     private List<BaseReqDto> categories;
