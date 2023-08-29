@@ -1,6 +1,6 @@
 package ir.larxury.core.service.common.dto.category.req;
 
-import ir.larxury.core.service.common.dto.BaseDto;
+import ir.larxury.core.service.common.dto.BaseIdDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -14,5 +14,5 @@ public class SubCategoryReq implements Serializable {
     private String title;
 
     @NotNull(message = "شناسه دسته بندی پدر وارد نشده است")
-    private BaseDto parentCategory;
+    private BaseIdDto parentCategory;
 }

@@ -44,12 +44,20 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         List<Category> categories = categoryRepository.findRootCategoryByIds(categoryIds);
-        if (categories.size() != categoryIds.size()){
+        if (categories.size() != categoryIds.size()) {
             log.error(ErrorCode.CORE_SERVICE_CATEGORY_BAD_CATEGORY_IDS.getTechnicalMessage());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_CATEGORY_BAD_CATEGORY_IDS);
         }
 
         return categories;
+    }
+
+    @Override
+    public Category findSubCategoryById(Long id) {
+        return categoryRepository.findSubCategoryById(id).orElseThrow(() -> {
+            log.error(ErrorCode.CORE_SERVICE_CATEGORY_IS_NUT_SUBCATEGORY.getTechnicalMessage());
+            throw new CoreServiceException(ErrorCode.CORE_SERVICE_CATEGORY_IS_NUT_SUBCATEGORY);
+        });
     }
 
     private Category findById(Long id) {

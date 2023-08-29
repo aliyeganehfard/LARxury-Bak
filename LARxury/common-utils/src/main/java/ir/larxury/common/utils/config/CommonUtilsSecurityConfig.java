@@ -23,9 +23,10 @@ public class CommonUtilsSecurityConfig {
     public RoleHierarchy roleHierarchy() {
         var hierarchy = new RoleHierarchyImpl();
         hierarchy.setHierarchy(
-                "ROLE_ADMIN > ROLE_MANAGER \n" +
-                        "ROLE_MANAGER > ROLE_SHOP_ADMIN \n" +
-                        "ROLE_SHOP_ADMIN > ROLE_USER");
+                """
+                        ROLE_ADMIN > ROLE_MANAGER\s
+                        ROLE_MANAGER > ROLE_SHOP_ADMIN\s
+                        ROLE_SHOP_ADMIN > ROLE_USER""");
         return hierarchy;
     }
 

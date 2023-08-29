@@ -44,7 +44,7 @@ public class ShopServiceImpl implements ShopService {
     private ShopPlaceService shopPlaceService;
 
     @Override
-    @Transactional
+//    @Transactional
     public void saveNewShop(Shop shop, String token) {
 
         if (existByName(shop.getName())) {
@@ -132,7 +132,7 @@ public class ShopServiceImpl implements ShopService {
         log.info("shop reject with id {} ", shop.getId());
     }
 
-    private Shop findById(Long shopId) {
+    public Shop findById(Long shopId) {
         return shopRepository.findById(shopId).orElseThrow(() -> {
             log.error(ErrorCode.CORE_SERVICE_SHOP_NOT_FOUND.getTechnicalMessage() + " with shop id = {}", shopId);
             return new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_NOT_FOUND);

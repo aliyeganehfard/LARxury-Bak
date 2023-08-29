@@ -13,4 +13,6 @@ public interface ShopService {
     void approveShop(Long shopId);
 
     void rejectShop(Long shopId);
+
+    Shop findById(Long shopId);
 }

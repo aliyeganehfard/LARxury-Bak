@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class BaseDto implements Serializable {
+public class BaseIdDto implements Serializable {
 
     @NotNull(message = "شناسه نمیتواند خالی باشد")
     private Long id;

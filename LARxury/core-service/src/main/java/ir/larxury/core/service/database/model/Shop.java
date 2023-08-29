@@ -45,6 +45,7 @@ public class Shop {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
+
     @JoinTable(
             name = "shop_category",
             joinColumns = @JoinColumn(name = "shop_id"),

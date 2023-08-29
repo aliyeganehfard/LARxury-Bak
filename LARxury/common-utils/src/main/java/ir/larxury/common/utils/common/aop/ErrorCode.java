@@ -44,8 +44,12 @@ public enum ErrorCode {
     CORE_SERVICE_TROUBLE_TO_SEND_INSTANT_DELIVERY(1207,"there is a problem sending the instant delivery message to dispatcher service code!","مشکلی در ارسال پیام به وجود آمده"),
     CORE_SERVICE_CATEGORY_NOT_FOUND(1208,"category not found!","دسته بندی با این شناسه پیدا نشد"),
     CORE_SERVICE_CATEGORY_ID_NOT_UNIQUE(1209,"category ids must be unique!","نمیتوان دسته بندی تکراری انتخاب کرد"),
-    CORE_SERVICE_CATEGORY_BAD_CATEGORY_IDS(1210,"One of the category IDs is incorrect!","یکی از شناسه دسته نادرست است"),
-    CORE_SERVICE_SHOP_PLACE_NOT_FOUND(12011,"shop place not found!","مکان فروشگاه با این شناسه پیدا نشد"),
+    CORE_SERVICE_CATEGORY_BAD_CATEGORY_IDS(1210,"one of the category IDs is incorrect!","یکی از شناسه دسته نادرست است"),
+    CORE_SERVICE_CATEGORY_IS_NUT_SUBCATEGORY(1211,"No subcategories were found for this category!","هیچ زیرمجموعه ای برای این دسته بندی پیدا نشد"),
+
+
+    CORE_SERVICE_SHOP_PLACE_NOT_FOUND(1220,"shop place not found!","مکان فروشگاه با این شناسه پیدا نشد"),
+    CORE_SERVICE_SHOP_PLACE_UNKNOWN_ERROR(1221,"unknown error to find shopPlace with unknown status!","خطای ناشناخته برای یافتن مکان فروشگاه با وضعیت ناشناخته پیش آمده"),
 
 
     DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY(1500,"trouble to send notification in instant delivery!","خظایی در ارسال اعلان لحظه ای رخ داده است"),
