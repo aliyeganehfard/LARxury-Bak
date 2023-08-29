@@ -6,7 +6,6 @@ import ir.larxury.core.service.database.model.ShopPlace;
 import ir.larxury.core.service.database.model.enums.PlaceStatus;
 import ir.larxury.core.service.database.repository.ShopPlaceRepository;
 import ir.larxury.core.service.service.ShopPlaceService;
-import ir.larxury.core.service.service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +37,13 @@ public class ShopPlaceServiceImpl implements ShopPlaceService {
     @Override
     public List<ShopPlace> findAll() {
         return shopPlaceRepository.findAll();
+    }
+
+    @Override
+    public ShopPlace getUnknownPlace() {
+        return shopPlaceRepository.findByStatus(PlaceStatus.UNKNOWN).orElseThrow(() -> {
+            log.error(ErrorCode.CORE_SERVICE_SHOP_PLACE_UNKNOWN_ERROR.getTechnicalMessage());
+            return new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_PLACE_UNKNOWN_ERROR);
+        });
     }
 }

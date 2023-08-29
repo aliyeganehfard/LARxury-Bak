@@ -5,11 +5,13 @@ import ir.larxury.common.utils.service.JWTVerificationService;
 import ir.larxury.core.service.common.aop.exception.CoreServiceException;
 import ir.larxury.core.service.database.model.Category;
 import ir.larxury.core.service.database.model.Shop;
+import ir.larxury.core.service.database.model.ShopPlace;
 import ir.larxury.core.service.database.model.enums.ShopStatus;
 import ir.larxury.core.service.database.repository.ShopRepository;
 import ir.larxury.core.service.provider.AsyncEngine;
 import ir.larxury.core.service.provider.AuthServiceProvider;
 import ir.larxury.core.service.service.CategoryService;
+import ir.larxury.core.service.service.ShopPlaceService;
 import ir.larxury.core.service.service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ShopPlaceService shopPlaceService;
+
     @Override
     @Transactional
     public void saveNewShop(Shop shop, String token) {
@@ -60,6 +65,8 @@ public class ShopServiceImpl implements ShopService {
                 );
 
         shop.setCategories(categories);
+        shop.setPlace(getShopPlace(shop));
+
         shopRepository.save(shop);
 
         asyncEngine.sendEmailInstantDeliveryMessage(
@@ -69,6 +76,15 @@ public class ShopServiceImpl implements ShopService {
         );
 
         log.info("save shop with id {}", shop.getId());
+    }
+
+    private ShopPlace getShopPlace(Shop shop) {
+        ShopPlace shopPlace;
+        if (shop.getPlace() == null)
+            shopPlace = shopPlaceService.getUnknownPlace();
+        else
+            shopPlace = shopPlaceService.findById(shop.getPlace().getId());
+        return shopPlace;
     }
 
     @Override

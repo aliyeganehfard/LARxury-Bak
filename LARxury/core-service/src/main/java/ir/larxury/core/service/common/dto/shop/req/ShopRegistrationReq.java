@@ -21,4 +21,6 @@ public class ShopRegistrationReq implements Serializable {
 
     @NotEmpty(message = "کتگوری نمیتواند خالی باشد")
     private List<BaseDto> categories;
+
+    private BaseDto place;
 }

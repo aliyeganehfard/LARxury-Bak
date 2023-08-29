@@ -35,7 +35,7 @@ public class ShopPlaceController {
     }
 
     @PreAuthorize("hasAnyRole('USER')")
-    @GetMapping("getById/{id}")
+    @GetMapping("findById/{id}")
     public ResponseEntity<GeneralResponse> findById(@PathVariable(name = "id") Long id) {
         var shopPlace = shopPlaceService.findById(id);
         var shopPlaceDto = mapper.map(shopPlace, ShopPlaceRes.class);
@@ -44,7 +44,7 @@ public class ShopPlaceController {
     }
 
     @PreAuthorize("hasAnyRole('USER')")
-    @GetMapping("getAll")
+    @GetMapping("findAll")
     public ResponseEntity<GeneralResponse> findAll() {
         var shopPlaces = shopPlaceService.findAll();
         var shopPlacesDto = shopPlaces.stream()

@@ -45,13 +45,17 @@ public class Shop {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "shop_category",
             joinColumns = @JoinColumn(name = "shop_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Category> categories = new ArrayList<>();
+
+    @JoinColumn(name = "place_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ShopPlace place;
 
 
     @PrePersist
