@@ -2,8 +2,17 @@ package ir.larxury.core.service.database.repository;
 
 import ir.larxury.core.service.database.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
+    @Query("SELECT coomment FROM Comment coomment " +
+            " WHERE coomment.id = :commentId AND " +
+            " coomment.product.shop.userId = :shopOwnerId")
+    Optional<Comment> findCommentForPostReply(@Param("commentId") Long commentId, @Param("shopOwnerId") String shopOwnerId);
 }

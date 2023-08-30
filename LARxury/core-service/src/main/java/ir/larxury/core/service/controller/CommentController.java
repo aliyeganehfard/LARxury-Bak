@@ -34,12 +34,11 @@ public class CommentController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("hasAnyRole('SHOP_ADMIN')")
     @PostMapping("post/reply")
     public ResponseEntity<GeneralResponse> postReply(@RequestBody @Valid PostReplyReq req,
                                                 @RequestHeader("Authorization") String token){
-        var comment = mapper.map(req, Comment.class);
-        commentService.save(comment,token);
+        commentService.postReply(req,token);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }

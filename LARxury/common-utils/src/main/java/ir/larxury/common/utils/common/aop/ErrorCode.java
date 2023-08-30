@@ -51,6 +51,10 @@ public enum ErrorCode {
     CORE_SERVICE_SHOP_PLACE_NOT_FOUND(1220,"shop place not found!","مکان فروشگاه با این شناسه پیدا نشد"),
     CORE_SERVICE_SHOP_PLACE_UNKNOWN_ERROR(1221,"unknown error to find shopPlace with unknown status!","خطای ناشناخته برای یافتن مکان فروشگاه با وضعیت ناشناخته پیش آمده"),
 
+    CORE_SERVICE_PRODUCT_NOT_FOUND(1230,"product not found!","محصول پیدا نشد"),
+
+    CORE_SERVICE_COMMENT_NOT_FOUND(1240,"comment not found!","کامنت پیدا نشد"),
+
 
     DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY(1500,"trouble to send notification in instant delivery!","خظایی در ارسال اعلان لحظه ای رخ داده است"),
     DISPATCHER_TROUBLE_IN_SEND_OTP(1501,"trouble to send otp!","مشکلی در ارسال کد تایید رخ داده است");

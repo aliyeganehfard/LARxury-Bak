@@ -32,8 +32,8 @@ public class Comment {
     @Column(name = "answer")
     private String answer;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    @Column(name = "commenter_user_id", nullable = false)
+    private String commenterUserId;
 
     @JoinColumn(name = "product_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
