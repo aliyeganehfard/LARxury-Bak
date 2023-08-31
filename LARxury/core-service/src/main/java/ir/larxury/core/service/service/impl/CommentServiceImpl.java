@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -50,7 +51,6 @@ public class CommentServiceImpl implements CommentService {
         log.info("save comment with id {}", comment.getId());
     }
 
-    // todo must shop_admin owner of this product
     @Override
     public void postReply(PostReplyReq reply, String token) {
         var shopOwnerId = jwtVerificationService.getUuid(token);
@@ -66,6 +66,12 @@ public class CommentServiceImpl implements CommentService {
                 comment.getAnswer()
         );
 
+    }
+
+    @Override
+    public List<Comment> getUnansweredComment(String token) {
+        var shopOwnerId = jwtVerificationService.getUuid(token);
+        return commentRepository.findUnansweredComment(shopOwnerId);
     }
 
     public void update(Comment comment){

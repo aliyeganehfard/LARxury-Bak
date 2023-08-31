@@ -2,6 +2,7 @@ package ir.larxury.core.service.controller;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
+import ir.larxury.common.utils.config.BaseModelMapper;
 import ir.larxury.common.utils.service.JWTVerificationService;
 import ir.larxury.core.service.common.dto.comment.req.CommentReq;
 import ir.larxury.core.service.common.dto.comment.req.PostReplyReq;
@@ -22,14 +23,14 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    private final ModelMapper mapper = new ModelMapper();
+    private final BaseModelMapper mapper = new BaseModelMapper();
 
     @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("save")
     public ResponseEntity<GeneralResponse> save(@RequestBody @Valid CommentReq req,
-                                                @RequestHeader("Authorization") String token){
-        var comment = mapper.map(req, Comment.class);
-        commentService.save(comment,token);
+                                                @RequestHeader("Authorization") String token) {
+        var comment = mapper.toModel(req, Comment.class);
+        commentService.save(comment, token);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
@@ -37,9 +38,17 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('SHOP_ADMIN')")
     @PostMapping("post/reply")
     public ResponseEntity<GeneralResponse> postReply(@RequestBody @Valid PostReplyReq req,
-                                                @RequestHeader("Authorization") String token){
-        commentService.postReply(req,token);
+                                                     @RequestHeader("Authorization") String token) {
+        commentService.postReply(req, token);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('SHOP_ADMIN')")
+    @GetMapping("get/unanswered")
+    public ResponseEntity<GeneralResponse> getUnansweredComment(@RequestHeader("Authorization") String token) {
+        var comments = commentService.getUnansweredComment(token);
+        var res = GeneralResponse.successfulResponse(comments, ErrorCode.SUCCESSFUL);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

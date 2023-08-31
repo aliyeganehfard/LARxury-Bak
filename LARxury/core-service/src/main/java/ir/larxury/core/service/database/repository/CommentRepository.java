@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +16,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " WHERE coomment.id = :commentId AND " +
             " coomment.product.shop.userId = :shopOwnerId")
     Optional<Comment> findCommentForPostReply(@Param("commentId") Long commentId, @Param("shopOwnerId") String shopOwnerId);
+
+    @Query("SELECT comment FROM Comment comment " +
+            " WHERE comment.answer IS NULL AND " +
+            " comment.product.shop.userId = :shopOwnerId")
+    List<Comment> findUnansweredComment(@Param("shopOwnerId") String shopOwnerId);
 }

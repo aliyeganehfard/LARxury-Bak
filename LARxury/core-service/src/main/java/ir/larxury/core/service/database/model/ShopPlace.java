@@ -36,11 +36,11 @@ public class ShopPlace {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ShopPlace shopPlace = (ShopPlace) o;
-        return Objects.equals(id, shopPlace.id) && Objects.equals(name, shopPlace.name) && Objects.equals(address, shopPlace.address) && status == shopPlace.status;
+        return id.equals(shopPlace.id) && status == shopPlace.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, status);
+        return Objects.hash(id, status);
     }
 }

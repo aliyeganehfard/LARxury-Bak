@@ -2,11 +2,12 @@ package ir.larxury.core.service.controller;
 
 import ir.larxury.common.utils.common.aop.ErrorCode;
 import ir.larxury.common.utils.common.dto.GeneralResponse;
+import ir.larxury.common.utils.config.BaseModelMapper;
 import ir.larxury.core.service.common.dto.shop.req.ShopRegistrationReq;
+import ir.larxury.core.service.common.dto.shop.res.ShopAwaitingConfigurationRes;
 import ir.larxury.core.service.database.model.Shop;
 import ir.larxury.core.service.service.ShopService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,13 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
-    private final ModelMapper mapper = new ModelMapper();
+    private final BaseModelMapper mapper = new BaseModelMapper();
 
     @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("register")
     public ResponseEntity<GeneralResponse> save(@RequestBody @Valid ShopRegistrationReq req,
                                                 @RequestHeader("Authorization") String token) {
-        var shop = mapper.map(req, Shop.class);
+        var shop = mapper.toModel(req, Shop.class);
         shopService.saveNewShop(shop, token);
         var res = GeneralResponse.successfulResponse(ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
@@ -36,7 +37,8 @@ public class ShopController {
     @PostMapping("find/awaiting/confirmation")
     public ResponseEntity<GeneralResponse> findAwaitingConfirmation() {
         var shops = shopService.findAwaitingConfirmation();
-        var res = GeneralResponse.successfulResponse(shops, ErrorCode.SUCCESSFUL);
+        var shopsDto = mapper.toDtoList(shops, ShopAwaitingConfigurationRes.class);
+        var res = GeneralResponse.successfulResponse(shopsDto, ErrorCode.SUCCESSFUL);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

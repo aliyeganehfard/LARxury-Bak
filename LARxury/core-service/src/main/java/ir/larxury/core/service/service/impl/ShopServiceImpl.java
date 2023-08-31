@@ -44,7 +44,7 @@ public class ShopServiceImpl implements ShopService {
     private ShopPlaceService shopPlaceService;
 
     @Override
-//    @Transactional
+    @Transactional
     public void saveNewShop(Shop shop, String token) {
 
         if (existByName(shop.getName())) {
