@@ -7,6 +7,7 @@ import ir.larxury.core.service.common.dto.comment.req.PostReplyReq;
 import ir.larxury.core.service.database.model.Comment;
 import ir.larxury.core.service.database.repository.CommentRepository;
 import ir.larxury.core.service.provider.AsyncEngine;
+import ir.larxury.core.service.provider.AuthServiceProvider;
 import ir.larxury.core.service.service.CommentService;
 import ir.larxury.core.service.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,13 +33,18 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private AuthServiceProvider authServiceProvider;
+
     @Override
     public void save(Comment comment, String token) {
         var userId = jwtVerificationService.getUuid(token);
         var product = productService.findById(comment.getProduct().getId());
+        var userInfo = authServiceProvider.getUserInfo(userId);
 
         comment.setCommenterUserId(userId);
         comment.setProduct(product);
+        comment.setCommenterUsername(userInfo.getUsername());
 
         commentRepository.save(comment);
 

@@ -35,6 +35,9 @@ public class Comment {
     @Column(name = "commenter_user_id", nullable = false)
     private String commenterUserId;
 
+    @Column(name = "commenter_user_name")
+    private String commenterUsername;
+
     @JoinColumn(name = "product_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Product product;

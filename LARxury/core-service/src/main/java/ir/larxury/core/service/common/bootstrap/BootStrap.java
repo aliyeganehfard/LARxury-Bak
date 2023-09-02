@@ -34,7 +34,7 @@ public class BootStrap {
         shopPlaceRepository.save(shopPlace);
 
         var category = Category.builder()
-                .title("t")
+                .title("A")
                 .build();
         categoryRepository.save(category);
 

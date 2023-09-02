@@ -24,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT NEW ir.larxury.auth.service.database.repository.projection.UserIdProjection(user.id) FROM User user WHERE user.username = :username")
     List<UserIdProjection> findUserIdByUsername(@Param(value = "username") String username);
 
-    @Query("SELECT NEW ir.larxury.auth.service.database.repository.projection.UserInformationProjection(user.firstName, user.lastName, user.email ,user.phoneNumber) " +
+    @Query("SELECT NEW ir.larxury.auth.service.database.repository.projection.UserInformationProjection(user.username,user.firstName, user.lastName, user.email ,user.phoneNumber) " +
             "FROM User user " +
             "WHERE user.id = :userId")
     UserInformationProjection getUserInformationById(@Param(value = "userId") UUID userId);
