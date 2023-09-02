@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
         asyncEngine.sendEmailInstantDeliveryMessage(
                 userId,
                 "شما کامنت جدید دارید",
-                String.format("شما برای محصول {%s} کامنت جدید دارید",product.getName())
+                String.format("شما برای محصول {%s} کامنت جدید دارید", product.getName())
         );
 
         log.info("save comment with id {}", comment.getId());
@@ -71,7 +71,6 @@ public class CommentServiceImpl implements CommentService {
                 "پاسخ کامنت شما",
                 comment.getAnswer()
         );
-
     }
 
     @Override
@@ -80,15 +79,26 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findUnansweredComment(shopOwnerId);
     }
 
-    public void update(Comment comment){
-        commentRepository.save(comment);
-        log.info("comment with id {} updated" , comment.getId());
+    @Override
+    public List<Comment> findProductComments(Long productId) {
+        return commentRepository.findAllByProductId(productId);
     }
 
-    private Comment findCommentForPostReply(Long commentId, String shopOwnerId){
-        return commentRepository.findCommentForPostReply(commentId,shopOwnerId).orElseThrow(()->{
+    @Override
+    public List<Comment> findShopComments(String token) {
+        var shopOwnerId = jwtVerificationService.getUuid(token);
+        return commentRepository.findShopCommentsByShopOwnerId(shopOwnerId);
+    }
+
+    public void update(Comment comment) {
+        commentRepository.save(comment);
+        log.info("comment with id {} updated", comment.getId());
+    }
+
+    private Comment findCommentForPostReply(Long commentId, String shopOwnerId) {
+        return commentRepository.findCommentForPostReply(commentId, shopOwnerId).orElseThrow(() -> {
             log.error(ErrorCode.CORE_SERVICE_COMMENT_NOT_FOUND.getTechnicalMessage() +
-                    " with comment id {} and shop owner id {}", commentId , shopOwnerId);
+                    " with comment id {} and shop owner id {}", commentId, shopOwnerId);
             return new CoreServiceException(ErrorCode.CORE_SERVICE_COMMENT_NOT_FOUND);
         });
     }

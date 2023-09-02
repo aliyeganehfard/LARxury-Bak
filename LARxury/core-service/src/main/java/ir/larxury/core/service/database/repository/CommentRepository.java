@@ -21,4 +21,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " WHERE comment.answer IS NULL AND " +
             " comment.product.shop.userId = :shopOwnerId")
     List<Comment> findUnansweredComment(@Param("shopOwnerId") String shopOwnerId);
+
+
+    // todo . encounter to error when a user have two shop
+    @Query("SELECT comment FROM Comment comment " +
+            " WHERE comment.product.shop.userId = :shopOwnerId")
+    List<Comment> findShopCommentsByShopOwnerId(@Param("shopOwnerId") String shopOwnerId);
+
+    List<Comment> findAllByProductId(Long productId);
 }

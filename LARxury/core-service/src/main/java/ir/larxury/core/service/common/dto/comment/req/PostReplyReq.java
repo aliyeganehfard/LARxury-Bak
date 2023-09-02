@@ -1,5 +1,6 @@
 package ir.larxury.core.service.common.dto.comment.req;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -13,7 +14,7 @@ public class PostReplyReq implements Serializable {
     @NotEmpty(message = "جواب نمیتواند خالی باشد")
     private String answer;
 
-    @Pattern(regexp = "^[1-9][0-9]*$")
+    @Min(value = 1, message = "شناسه کامنت باید بزرگتر از صفر باشد")
     @NotNull(message = "شناسه کامنت نمیتواند خالی باشد")
     private Long commentId;
 }

@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>core-service</artifactId>
-	<version>1.10.1</version>
+	<version>1.10.2</version>
 	<packaging>war</packaging>
 	<name>core-service</name>
 

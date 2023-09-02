@@ -1,14 +1,13 @@
 package ir.larxury.core.service.common.dto.comment.res;
 
 import ir.larxury.core.service.common.dto.BaseIdDto;
-import ir.larxury.core.service.database.model.Product;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class UnansweredCommentRes extends BaseIdDto implements Serializable {
+public class CommentRes extends BaseIdDto implements Serializable {
 
     private Date createDate;
 
@@ -16,5 +15,7 @@ public class UnansweredCommentRes extends BaseIdDto implements Serializable {
 
     private String commenterUserId;
 
-    private Product product;
+    private String commenterUsername;
+
+    private BaseIdDto product;
 }

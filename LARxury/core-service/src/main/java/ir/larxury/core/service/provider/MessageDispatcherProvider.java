@@ -24,8 +24,8 @@ public class MessageDispatcherProvider extends AbstractProviderService {
         req.setSubject(subject);
         req.setMessage(message);
         req.setReceiver(receiverEmail);
-
-        var responseEntity = httpService.emailInstantDelivery(req, login());
+        var token = "Bearer " + getToken();
+        var responseEntity = httpService.emailInstantDelivery(req, token);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             var generalResponse = responseEntity.getBody();
             assert generalResponse != null;
@@ -38,6 +38,6 @@ public class MessageDispatcherProvider extends AbstractProviderService {
 
     @Override
     public String login() {
-        return "Bearer " + authServiceProvider.getToken();
+        return authServiceProvider.getToken();
     }
 }

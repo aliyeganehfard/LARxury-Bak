@@ -12,4 +12,8 @@ public interface CommentService {
     void postReply(PostReplyReq reply, String token);
 
     List<Comment> getUnansweredComment(String token);
+
+    List<Comment> findProductComments(Long productId);
+
+    List<Comment> findShopComments(String token);
 }
