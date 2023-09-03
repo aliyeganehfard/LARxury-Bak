@@ -55,6 +55,8 @@ public enum ErrorCode {
 
     CORE_SERVICE_COMMENT_NOT_FOUND(1240,"comment not found!","کامنت پیدا نشد"),
 
+    CORE_SERVICE_TROUBLE_TO_SAVE_PRODUCT_VIEWS(1250,"trouble to save product views!","مشکلی در دخیره بازدید های محصولات پیش آمده است"),
+
 
     DISPATCHER_TROUBLE_IN_INSTANT_DELIVERY(1500,"trouble to send notification in instant delivery!","خظایی در ارسال اعلان لحظه ای رخ داده است"),
     DISPATCHER_TROUBLE_IN_SEND_OTP(1501,"trouble to send otp!","مشکلی در ارسال کد تایید رخ داده است");
