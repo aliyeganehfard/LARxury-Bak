@@ -53,7 +53,7 @@ public class ProductViewServiceImpl implements ProductViewService {
 
     @Scheduled(fixedRate = 900000)
     @Transactional
-    public void pureSave() {
+    public void schedulingSave() {
         List<ProductView> tempViews = new ArrayList<>(views);
         try {
             if (!tempViews.isEmpty()) {
