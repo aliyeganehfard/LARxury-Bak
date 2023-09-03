@@ -13,9 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -57,9 +55,9 @@ public class ProductViewServiceImpl implements ProductViewService {
         List<ProductView> tempViews = new ArrayList<>(views);
         try {
             if (!tempViews.isEmpty()) {
+                views.removeAll(tempViews);
                 productViewRepository.saveAll(tempViews);
                 log.info("products views saved!");
-                views.clear();
             }
         } catch (Exception e) {
             views.addAll(tempViews);
