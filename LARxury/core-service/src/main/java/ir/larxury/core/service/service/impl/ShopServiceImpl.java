@@ -53,7 +53,7 @@ public class ShopServiceImpl implements ShopService {
         }
 
         var userId = jwtVerificationService.getUuid(token);
-        shop.setUserId(userId);
+        shop.setOwnerId(userId);
         shop.setShopStatus(ShopStatus.AWAITING_CONFIRMATION);
 
         var categories =
@@ -99,12 +99,12 @@ public class ShopServiceImpl implements ShopService {
             log.error(ErrorCode.CORE_SERVICE_SHOP_EARLIER_APPROVED.getTechnicalMessage() + " shop id = {}", shop.getId());
             throw new CoreServiceException(ErrorCode.CORE_SERVICE_SHOP_EARLIER_APPROVED);
         }
-        authServiceProvider.setShopAdminRoleToUser(shop.getUserId());
+        authServiceProvider.setShopAdminRoleToUser(shop.getOwnerId());
         shop.setShopStatus(ShopStatus.CONFIRM);
         update(shop);
 
         asyncEngine.sendEmailInstantDeliveryMessage(
-                shop.getUserId(),
+                shop.getOwnerId(),
                 "LARxury",
                 "فروشگاه شما تایید شد"
         );
@@ -124,7 +124,7 @@ public class ShopServiceImpl implements ShopService {
         update(shop);
 
         asyncEngine.sendEmailInstantDeliveryMessage(
-                shop.getUserId(),
+                shop.getOwnerId(),
                 "LARxury",
                 "فروشگاه شما تایید نشد"
         );

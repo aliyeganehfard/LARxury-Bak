@@ -42,9 +42,12 @@ public class Shop {
     @Column(name = "about")
     private String about;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    @Column(name = "owner_id", nullable = false)
+    private String ownerId;
 
+    @JoinColumn(name = "place_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ShopPlace place;
 
     @JoinTable(
             name = "shop_category",
@@ -54,10 +57,13 @@ public class Shop {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Category> categories = new ArrayList<>();
 
-    @JoinColumn(name = "place_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private ShopPlace place;
-
+    @JoinTable(
+            name = "shop_follower",
+            joinColumns = @JoinColumn(name = "shop_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Follower> followers = new ArrayList<>();
 
     @PrePersist
     public void prePersist(){
